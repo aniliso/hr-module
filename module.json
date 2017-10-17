@@ -1,0 +1,17 @@
+{
+    "name": "Hr",
+    "alias": "hr",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Hr\\Providers\\HrServiceProvider",
+        "Modules\\Hr\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "macros.php"
+    ],
+    "requires": []
+}
