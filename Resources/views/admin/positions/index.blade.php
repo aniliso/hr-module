@@ -31,6 +31,7 @@
                         <tr>
                             <th>Id</th>
                             <th>{{ trans('hr::positions.form.reference_no') }}</th>
+                            <th>Başvuru Sayısı</th>
                             <th>{{ trans('hr::positions.form.name') }}</th>
                             <th>{{ trans('hr::positions.form.start_at') }}</th>
                             <th>{{ trans('hr::positions.form.end_at') }}</th>
@@ -49,6 +50,9 @@
                                 <a href="{{ route('admin.hr.position.edit', [$position->id]) }}">
                                     {{ $position->reference_no }}
                                 </a>
+                            </td>
+                            <td>
+                                {{ $position->applications()->count() }}
                             </td>
                             <td>
                                 <a href="{{ route('admin.hr.position.edit', [$position->id]) }}">

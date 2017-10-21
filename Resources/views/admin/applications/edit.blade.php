@@ -55,7 +55,7 @@
                                         </tr>
                                         <tr>
                                             <th class="col-md-2">{{ trans('hr::applications.form.identity.bloodgroup') }}</th>
-                                            <td>{{ $application->present()->identity('bloodgroup') }}</td>
+                                            <td>{{ $application->present()->identity('blood_group') }}</td>
                                         </tr>
                                         <tr>
                                             <th class="col-md-2">{{ trans('hr::applications.form.identity.no') }}</th>
@@ -276,11 +276,11 @@
                                     @foreach($application->present()->references as $reference)
                                         @if(isset($reference->full_name))
                                         <tr>
-                                            <td>{{ $reference->full_name }}</td>
-                                            <td>{{ $reference->work_place }}</td>
-                                            <td>{{ $reference->position }}</td>
-                                            <td>{{ $reference->proximity }}</td>
-                                            <td>{{ $reference->phone }}</td>
+                                            <td>{{ !isset($reference->full_name) ?'': $reference->full_name }}</td>
+                                            <td>{{ !isset($reference->work_place) ?'': $reference->work_place }}</td>
+                                            <td>{{ !isset($reference->position) ?'': $reference->position }}</td>
+                                            <td>{{ !isset($reference->proximity) ?'': $reference->proximity }}</td>
+                                            <td>{{ !isset($reference->phone) ?'': $reference->phone }}</td>
                                         </tr>
                                         @endif
                                     @endforeach

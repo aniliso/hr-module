@@ -31,4 +31,9 @@ class Position extends Model
     {
         return $this->attributes['end_at'] = Carbon::parse($value);
     }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'position_id', 'id');
+    }
 }

@@ -6,7 +6,7 @@ return [
     'edit resource'    => 'Açık Pozisyon Düzenle',
     'destroy resource' => 'Açık Pozisyon Sil',
     'title'            => [
-        'positions'            => 'Açık Pozisyon',
+        'positions'            => '{0} Açık Pozisyon|{1} Açık Pozisyonlar',
         'create position'      => 'Açık Pozisyon Ekle',
         'edit position'        => 'Açık Pozisyon Düzenle',
         'personal_criteria'    => 'Aday Kriterleri',

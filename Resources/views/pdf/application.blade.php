@@ -1,4 +1,19 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style>
+        * {
+            font-family: DejaVu Sans !important;
+        }
+        td, th {
+            text-align: left;
+        }
+    </style>
+
+</head>
+<body>
 <div>
+    <h2>{{ trans('hr::applications.title.view application', ['id'=>$application->id]) }}</h2><br/>
     <fieldset>
         <legend>{{ trans('hr::applications.legend.personal') }}</legend>
         <div class="row">
@@ -305,8 +320,5 @@
         </table>
     </fieldset>
 </div>
-<style>
-    td, th {
-        text-align: left;
-    }
-</style>
+</body>
+</html>

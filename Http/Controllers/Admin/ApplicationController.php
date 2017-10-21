@@ -100,8 +100,10 @@ class ApplicationController extends AdminBaseController
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('hr::applications.title.applications')]));
     }
 
-    public function export()
+    public function export(Application $application)
     {
-
+        header('Content-Type: text/html; charset=utf-8');
+        $pdf = \PDF::loadView('hr::pdf.application', ['application'=>$application]);
+        return $pdf->download('basvuru_'.$application->id.'.pdf');
     }
 }

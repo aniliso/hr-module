@@ -2,7 +2,8 @@
 
 return [
     'position'    => [
-        'index' => 'hr/index'
+        'index' => 'hr/positions',
+        'view'  => 'hr/position/{hrPositionSlug}'
     ],
     'application' => [
         'form'   => 'hr/form',

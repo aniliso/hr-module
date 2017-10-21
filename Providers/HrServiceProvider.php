@@ -35,6 +35,7 @@ class HrServiceProvider extends ServiceProvider
             $this->getSidebarClassForModule('Hr', RegisterHrSidebar::class)
         );
         $this->registerFacades();
+        $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
     }
 
     public function boot()
@@ -90,5 +91,6 @@ class HrServiceProvider extends ServiceProvider
         $aliasLoader->alias('HrCriteria', CriteriaFacades::class);
         $aliasLoader->alias('HrInformation', InformationFacades::class);
         $aliasLoader->alias('HrApplication', ApplicationFacade::class);
+        $aliasLoader->alias('PDF', \Barryvdh\DomPDF\Facade::class);
     }
 }

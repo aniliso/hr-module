@@ -86,10 +86,10 @@ class ApplicationPresenter extends BasePresenter
             $experiences = collect($this->entity->experience);
             return $experiences->map(function($experience) {
                 if(isset($experience->start_at)) {
-                    $experience->start_at = Carbon::parse($experience->start_at)->format('d F Y');
+                    $experience->start_at = Carbon::parse($experience->start_at)->formatLocalized('%d %B %Y');
                 }
                 if(isset($experience->end_at)) {
-                    $experience->end_at = Carbon::parse($experience->end_at)->format('d F Y');
+                    $experience->end_at = Carbon::parse($experience->end_at)->formatLocalized('%d %B %Y');
                 }
                 return $experience;
             });
@@ -208,7 +208,7 @@ class ApplicationPresenter extends BasePresenter
         if($field == 'birthplace' && isset($this->entity->identity->{$field})) {
             return \HrInformation::city()->get($this->entity->identity->{$field});
         }
-        if($field == 'bloodgroup' && isset($this->entity->identity->{$field})) {
+        if($field == 'blood_group' && isset($this->entity->identity->{$field})) {
             return \HrApplication::bloodgroup()->get($this->entity->identity->{$field});
         }
         if(isset($this->entity->identity->{$field})) {

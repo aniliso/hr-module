@@ -11,7 +11,7 @@ class CreateApplicationRequest extends BaseFormRequest
 
     public function rules()
     {
-        return [
+        $rules = [
             'first_name'             => 'required',
             'last_name'              => 'required',
             'identity.no'            => 'required',
@@ -43,8 +43,22 @@ class CreateApplicationRequest extends BaseFormRequest
             'course.*.name'          => 'required_with:course.*.company,course.*.issue_at',
             'course.*.company'       => 'required_with:course.*.name,course.*.issue_at',
             'course.*.issue_at'      => 'required_with:course.*.name,course.*.company',
-            //'captcha_hr'             => 'required|captcha'
+            'experience.*.start_at'  => 'required_with:experience.*.end_at,experience.*.start_at,experience.*.company',
+            'experience.*.end_at'    => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+            'experience.*.company'   => 'required_with:experience.*.start_at,experience.*.end_at',
+            'experience.*.department'=> 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+            'experience.*.position'  => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+            'experience.*.reason'    => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+            'experience.*.full_name' => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+            'experience.*.title'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+            'experience.*.phone'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
         ];
+
+        if(!setting('hr::user-login')) {
+            $rules = array_merge($rules, array('captcha_hr' => 'required|captcha'));
+        }
+
+        return $rules;
     }
 
     public function attributes()

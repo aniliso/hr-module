@@ -60,6 +60,10 @@ $router->group(['prefix' =>'/hr'], function (Router $router) {
         'uses' => 'ApplicationController@edit',
         'middleware' => 'can:hr.applications.edit'
     ]);
+    $router->get('applications/{hrApplication}/export', [
+        'as' => 'admin.hr.application.export',
+        'uses' => 'ApplicationController@export'
+    ]);
     $router->put('applications/{hrApplication}', [
         'as' => 'admin.hr.application.update',
         'uses' => 'ApplicationController@update',

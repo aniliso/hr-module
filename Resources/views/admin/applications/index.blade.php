@@ -23,6 +23,7 @@
                         <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Başvurulan Pozisyon</th>
                             <th>{{ trans('hr::applications.form.gender') }}</th>
                             <th>{{ trans('hr::applications.form.first_name') }}</th>
                             <th>{{ trans('hr::applications.form.identity.birthdate') }}</th>
@@ -36,6 +37,7 @@
                         <?php foreach ($applications as $application): ?>
                         <tr>
                             <td>{{ $application->id }}</td>
+                            <td>{{ !isset($application->position->name) ? 'Yok' : $application->position->name }}</td>
                             <td>{{ $application->present()->gender }}</td>
                             <td>{{ $application->present()->fullname }}</td>
                             <td>{{ $application->present()->identity('birthdate') }}</td>
@@ -47,7 +49,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.hr.application.edit', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file-pdf-o"></i></a>
+                                    <a href="{{ route('admin.hr.application.export', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file-pdf-o"></i></a>
                                     <a href="{{ route('admin.hr.application.edit', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file-text-o"></i></a>
                                     <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.hr.application.destroy', [$application->id]) }}"><i class="fa fa-trash"></i></button>
                                 </div>

@@ -2,7 +2,8 @@
 
 return [
   'position' => [
-      'index' => 'ik/index'
+      'index' => 'ik/pozisyonlar',
+      'view'  => 'ik/pozisyon/{hrPositionSlug}'
   ],
   'application' => [
       'form'   => 'ik/form',

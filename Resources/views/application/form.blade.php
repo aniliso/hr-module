@@ -572,13 +572,13 @@
                                         <div class="col-md-10">
                                             <div class="row">
                                                 <div class="col-md-2">
-                                                    <div class="form-group" :class="{ 'has-error' : formErrors['exper.start_at'] }">
+                                                    <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.start_at'] }">
                                                         <label v-if="key == 0" class="browser-default">{{ trans('hr::applications.form.experiences.start_at') }}</label>
                                                         <date-picker v-model="exper.start_at" input-class="browser-default" :config="config.date" placeholder="{{ trans('hr::applications.form.experiences.start_at') }}"></date-picker>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <div class="form-group" :class="{ 'has-error' : formErrors['exper.end_at'] }">
+                                                    <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.end_at'] }">
                                                         <label v-if="key == 0" class="browser-default">{{ trans('hr::applications.form.experiences.end_at') }}</label>
                                                         <date-picker v-model="exper.end_at" input-class="browser-default" :config="config.date" placeholder="{{ trans('hr::applications.form.experiences.end_at') }}"></date-picker>
                                                     </div>
@@ -586,7 +586,7 @@
                                                 <div class="col-md-8">
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <div class="form-group" :class="{ 'has-error' : formErrors['exper.company'] }">
+                                                            <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.company'] }">
                                                                 <label v-if="key == 0">{{ trans('hr::applications.form.experiences.company') }}</label>
                                                                 <input class="browser-default form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.company') }}"
@@ -594,7 +594,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <div class="form-group" :class="{ 'has-error' : formErrors['exper.department'] }">
+                                                            <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.department'] }">
                                                                 <label v-if="key == 0">{{ trans('hr::applications.form.experiences.department') }}</label>
                                                                 <input class="browser-default form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.department') }}"
@@ -602,7 +602,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <div class="form-group" :class="{ 'has-error' : formErrors['exper.position'] }">
+                                                            <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.position'] }">
                                                                 <label v-if="key == 0">{{ trans('hr::applications.form.experiences.position') }}</label>
                                                                 <input class="browser-default form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.position') }}"
@@ -614,7 +614,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <div class="form-group" :class="{ 'has-error' : formErrors['exper.reason'] }">
+                                                    <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.reason'] }">
                                                         <label v-if="key < 0">{{ trans('hr::applications.form.experiences.reason') }}</label>
                                                         <input class="browser-default form-control" type="text"
                                                                placeholder="{{ trans('hr::applications.form.experiences.reason') }}"
@@ -625,21 +625,21 @@
                                                     <label v-if="key < 0">{{ trans('hr::applications.form.experiences.title_desc') }}</label>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <div class="form-group" :class="{ 'has-error' : formErrors['exper.full_name'] }">
+                                                            <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.full_name'] }">
                                                                 <input class="browser-default form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.full_name') }}"
                                                                        v-model="exper.full_name">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <div class="form-group" :class="{ 'has-error' : formErrors['exper.title'] }">
+                                                            <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.title'] }">
                                                                 <input class="browser-default form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.title') }}"
                                                                        v-model="exper.title">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <div class="form-group" :class="{ 'has-error' : formErrors['exper.phone'] }">
+                                                            <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.phone'] }">
                                                                 <input class="browser-default form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.phone') }}"
                                                                        v-model="exper.phone">
@@ -932,16 +932,16 @@
                     { status: '' }
                 ],
                 course: [
-                    {}
+                    {company: null }
                 ],
                 experience: [
-                    {}
+                    {company: null }
                 ],
                 reference: [
-                    {}
+                    {full_name: null }
                 ],
                 emergency: [
-                    {}
+                    { full_name: null }
                 ],
                 request: {
                     price: null,
@@ -950,7 +950,8 @@
                     job_rotation: 0,
                     department: 0
                 },
-                user_id: '{{ $currentUser ? $currentUser->id : '' }}'
+                user_id: '{{ $currentUser ? $currentUser->id : '' }}',
+                position_id: null
             },
             newApplication: {},
             formErrors: {
@@ -962,8 +963,6 @@
         created: function() {
             this.newApplication    = _.clone(this.application, true);
             this.authorization_key = document.querySelector('meta[name="authorization"]').getAttribute('content');
-        },
-        mounted: function() {
             if(this.application.user_id) {
                 this.getUser(this.application.user_id);
             }
@@ -1013,9 +1012,9 @@
             submitForm: function (e) {
                 e.preventDefault();
                 if(this.application.id != null) {
-                    this.applicationUpdate('{{ route('api.hr.application.update') }}');
+                    this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
                 } else {
-                    this.applicationUpdate('{{ route('api.hr.application.create') }}');
+                    this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
                 }
                 if(this.hasCaptcha) {
                     this.application.captcha_hr = grecaptcha.getResponse(this.application.captcha_hr);
@@ -1046,9 +1045,9 @@
                     type: type
                 });
             },
-            applicationUpdate: function(route) {
+            applicationUpdate: function(route, data) {
                 this.ajaxStart(true);
-                axios.post(route, this.application)
+                axios.post(route, data)
                         .then(response => {
                             this.ajaxStart(false);
                             this.formErrors = {};
@@ -1064,6 +1063,9 @@
                 axios.get('{{ route('api.hr.application.user') }}?user_id='+id)
                         .then(({ data })=> {
                             this.application = JSON.parse(data.message);
+                            @if(isset($position))
+                               this.application.position_id = '{{ !isset($position) ? '' : $position->id }}';
+                            @endif
                             this.ajaxStart(false);
                         }).catch(error => {
                                 this.pnotify(error.response.data.message, 'notice');
