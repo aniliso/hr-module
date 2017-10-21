@@ -7,7 +7,7 @@ class BloodGroup extends BaseOption
     public function __construct()
     {
         self::$lists = [
-            '' => trans('hr::applications.select.blood.0'),
+            0 => trans('hr::applications.select.blood.0'),
             1 => trans('hr::applications.select.blood.1'),
             2 => trans('hr::applications.select.blood.2'),
             3 => trans('hr::applications.select.blood.3'),

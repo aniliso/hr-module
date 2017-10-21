@@ -14,7 +14,7 @@ class AddUserIdColumnToApplicationsTable extends Migration
     public function up()
     {
         Schema::table('hr__applications', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->nullable()->unique();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

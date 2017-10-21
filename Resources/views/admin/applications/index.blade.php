@@ -47,7 +47,8 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.hr.application.edit', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ route('admin.hr.application.edit', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file-pdf-o"></i></a>
+                                    <a href="{{ route('admin.hr.application.edit', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file-text-o"></i></a>
                                     <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.hr.application.destroy', [$application->id]) }}"><i class="fa fa-trash"></i></button>
                                 </div>
                             </td>

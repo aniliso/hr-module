@@ -2,14 +2,14 @@
 
 @section('content-header')
     <h1>
-        {{ trans('hr::applications.title.edit application') }}
+        {{ trans('hr::applications.title.view application', ['id' => $application->id]) }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i
                         class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
         <li><a href="{{ route('admin.hr.application.index') }}">{{ trans('hr::applications.title.applications') }}</a>
         </li>
-        <li class="active">{{ trans('hr::applications.title.edit application') }}</li>
+        <li class="active">{{ trans('hr::applications.title.view application', ['id' => $application->id]) }}</li>
     </ol>
 @stop
 

@@ -10,6 +10,7 @@ return [
         'applications'       => 'Başvurular',
         'create application' => 'Başvuru Ekle',
         'edit application'   => 'Başvuru Düzenle',
+        'view application'   => ':id no.lu Başvuru'
     ],
     'button'           => [
         'create application' => 'Başvuru Ekle',
@@ -203,6 +204,7 @@ return [
     'validation'       => [
     ],
     'buttons'          => [
-        'send' => 'Başvuru Yap'
+        'create' => 'Başvuru Yap',
+        'update' => 'Başvuru Güncelle'
     ]
 ];

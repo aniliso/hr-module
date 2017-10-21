@@ -6,8 +6,8 @@
     İnsan Kaynakları Formu
     @endcomponent
 
-    <section class="section-padding md-p-top-50 section-page" id="app">
-        <div class="container">
+    <section class="section-padding md-p-top-bot-50 section-page">
+        <div class="container" id="app">
             {!! Form::open(['v-on:submit'=>'submitForm', 'files'=>true, 'method'=>'post']) !!}
             <div class="row">
                 <div class="col-md-12">
@@ -97,7 +97,7 @@
                                         <div class="form-group">
                                             <label>{{ trans('hr::applications.form.identity.bloodgroup') }}</label>
                                             <select class="browser-default form-control select"
-                                                    v-model="application.identity.bloodgroup">
+                                                    v-model="application.identity.blood_group">
                                                 @foreach(HrApplication::bloodgroup()->lists() as $key => $blood)
                                                     <option value="{{ $key }}">{{ $blood }}</option>
                                                 @endforeach
@@ -772,7 +772,7 @@
                                             <label>{{ trans('hr::applications.form.requests.travel') }}</label>
                                             <select class="browser-default form-control" class="select"
                                                     v-model="application.request.travel">
-                                                <option value="">{{ trans('hr::applications.select.select') }}</option>
+                                                <option value="0">{{ trans('hr::applications.select.select') }}</option>
                                                 <option value="1">{{ trans('hr::applications.select.no') }}</option>
                                                 <option value="2">{{ trans('hr::applications.select.yes') }}</option>
                                             </select>
@@ -783,7 +783,7 @@
                                             <label>{{ trans('hr::applications.form.requests.job_rotation') }}</label>
                                             <select class="browser-default form-control" class="select"
                                                     v-model="application.request.job_rotation">
-                                                <option value="">{{ trans('hr::applications.select.select') }}</option>
+                                                <option value="0">{{ trans('hr::applications.select.select') }}</option>
                                                 <option value="1">{{ trans('hr::applications.select.no') }}</option>
                                                 <option value="2">{{ trans('hr::applications.select.yes') }}</option>
                                             </select>
@@ -847,7 +847,11 @@
                     <hr/>
                     <div class="row">
                         <div class="col-md-12 m-top-20">
-                            {!! BSForm::submit(trans('global.buttons.send'), ['class'=>'btn btn-primary']) !!}
+                            @if($currentUser)
+                                {!! BSForm::submit(trans('hr::applications.buttons.update'), ['class'=>'btn btn-primary']) !!}
+                            @else
+                                {!! BSForm::submit(trans('hr::applications.buttons.create'), ['class'=>'btn btn-primary']) !!}
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -876,7 +880,8 @@
 <script src="{!! Module::asset('hr:js/vue-bootstrap-datetimepicker.min.js') !!}"></script>
 
 <script>
-    //axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
+    axios.defaults.headers.common['Authorization'] = 'Bearer '+document.querySelector('meta[name="authorization"]').getAttribute('content');
     axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
     Vue.config.devtools = true;
@@ -896,8 +901,8 @@
             application: {
                 id: null,
                 gender: 1,
-                first_name: null,
-                last_name: null,
+                first_name: '{{ $currentUser ? $currentUser->first_name : '' }}',
+                last_name: '{{ $currentUser ? $currentUser->last_name : '' }}',
                 nationality: 1,
                 marital: 2,
                 health: { status: 0, desc: '' },
@@ -905,9 +910,8 @@
                 captcha_hr: null,
                 identity: {
                     birthdate: null,
-                    blood_group: null,
-                    birthplace: 6,
-                    bloodgroup: ''
+                    blood_group: 0,
+                    birthplace: 6
                 },
                 driving: {
                     type: '',
@@ -915,7 +919,8 @@
                     issue_at: null
                 },
                 contact: {
-                    city: 6
+                    city: 6,
+                    email: '{{ $currentUser ? $currentUser->email : '' }}'
                 },
                 language: [
                     { lang: '' }
@@ -940,25 +945,27 @@
                 ],
                 request: {
                     price: null,
-                    work_time: '',
-                    travel: '',
-                    job_rotation: '',
-                    department: ''
-                }
+                    work_time: 0,
+                    travel: 0,
+                    job_rotation: 0,
+                    department: 0
+                },
+                user_id: '{{ $currentUser ? $currentUser->id : '' }}'
             },
             newApplication: {},
             formErrors: {
                 identity: {}
             },
-            user_id: '{{ Auth::user()->id }}',
-            hasCaptcha: {{ setting('hr::user-login') ? 0 : 1 }}
+            hasCaptcha: {{ setting('hr::user-login') ? 0 : 1 }},
+            authorization_key: null
         },
         created: function() {
-            this.newApplication = _.clone(this.application, true);
+            this.newApplication    = _.clone(this.application, true);
+            this.authorization_key = document.querySelector('meta[name="authorization"]').getAttribute('content');
         },
         mounted: function() {
-            if(this.user_id) {
-                this.getUser(this.user_id);
+            if(this.application.user_id) {
+                this.getUser(this.application.user_id);
             }
         },
         methods: {
@@ -1041,14 +1048,7 @@
             },
             applicationUpdate: function(route) {
                 this.ajaxStart(true);
-                let config = {
-                    headers: {
-                        @if($api_key = Authentication::user()->getFirstApiKey())
-                        'Authorization': 'Bearer ' + '{{ $api_key }}'
-                        @endif
-                    }
-                };
-                axios.post(route, this.application, config)
+                axios.post(route, this.application)
                         .then(response => {
                             this.ajaxStart(false);
                             this.formErrors = {};
@@ -1060,15 +1060,8 @@
                         });
             },
             getUser: function(id) {
-                let config = {
-                    headers: {
-                        @if($api_key = Authentication::user()->getFirstApiKey())
-                        'Authorization': 'Bearer ' + '{{ $api_key }}'
-                        @endif
-                    }
-                };
                 this.ajaxStart(true);
-                axios.get('{{ route('api.hr.application.user') }}?user_id='+id, config)
+                axios.get('{{ route('api.hr.application.user') }}?user_id='+id)
                         .then(({ data })=> {
                             this.application = JSON.parse(data.message);
                             this.ajaxStart(false);

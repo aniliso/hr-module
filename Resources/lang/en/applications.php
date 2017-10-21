@@ -10,6 +10,7 @@ return [
         'applications'       => 'Applications',
         'create application' => 'Create Application',
         'edit application'   => 'Edit Application',
+        'view application'   => ':id th Application'
     ],
     'button'           => [
         'create application' => 'Create Application',
@@ -203,6 +204,7 @@ return [
     'validation'       => [
     ],
     'buttons'          => [
-        'send' => 'Make an Application'
+        'create' => 'Create',
+        'update' => 'Update'
     ]
 ];

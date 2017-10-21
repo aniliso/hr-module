@@ -12,7 +12,7 @@ class Application extends Model
     use PresentableTrait;
 
     protected $table = 'hr__applications';
-    protected $fillable = ['gender', 'first_name', 'last_name', 'nationality', 'marital', 'health', 'criminal', 'request', 'identity', 'driving', 'contact', 'skills', 'education', 'language', 'reference', 'experience', 'course', 'emergency', 'size'];
+    protected $fillable = ['user_id', 'gender', 'first_name', 'last_name', 'nationality', 'marital', 'health', 'criminal', 'request', 'identity', 'driving', 'contact', 'skills', 'education', 'language', 'reference', 'experience', 'course', 'emergency', 'size'];
 
     protected $casts = [
         'request'    => 'object',

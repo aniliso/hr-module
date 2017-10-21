@@ -27,7 +27,7 @@ class PublicController extends BasePublicController
     {
         try
         {
-            if(!$application = $this->application->findByAttributes(['user_id'=>$request->get('user_id')])) {
+            if(!$application = $this->application->findByAttributes(['user_id'=>$this->auth->user()->id])) {
                 throw new \Exception('İş Başvuru Formu kaydınızı lütfen doldurunuz');
             }
             return response()->json([

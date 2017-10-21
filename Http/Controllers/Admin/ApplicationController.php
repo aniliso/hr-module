@@ -99,4 +99,9 @@ class ApplicationController extends AdminBaseController
         return redirect()->route('admin.hr.application.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('hr::applications.title.applications')]));
     }
+
+    public function export()
+    {
+
+    }
 }
