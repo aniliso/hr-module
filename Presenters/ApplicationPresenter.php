@@ -25,17 +25,21 @@ class ApplicationPresenter extends BasePresenter
     }
     public function health()
     {
-        if(isset($this->entity->health)) {
-            return $this->entity->health;
+        if(isset($this->entity->health->status)) {
+            $status = $this->entity->health->status == 0 ? 'Hayır' : $this->entity->health->desc;
+        } else {
+            $status = "Hayır";
         }
-        return "Hayır";
+        return $status;
     }
     public function criminal()
     {
-        if(isset($this->entity->criminal)) {
-            return $this->entity->criminal;
+        if(isset($this->entity->criminal->status)) {
+            $status = $this->entity->criminal->status == 0 ? 'Hayır' : $this->entity->criminal->desc;
+        } else {
+            $status = "Hayır";
         }
-        return "Hayır";
+        return $status;
     }
     public function request($field="")
     {

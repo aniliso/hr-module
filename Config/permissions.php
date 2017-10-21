@@ -13,7 +13,4 @@ return [
         'edit' => 'hr::applications.edit resource',
         'destroy' => 'hr::applications.destroy resource',
     ],
-// append
-
-
 ];

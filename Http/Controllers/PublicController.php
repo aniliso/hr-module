@@ -3,9 +3,11 @@
 namespace Modules\Hr\Http\Controllers;
 
 use Breadcrumbs;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Hr\Http\Requests\CreateApplicationRequest;
+use Modules\Hr\Http\Requests\UpdateApplicationRequest;
 use Modules\Hr\Mail\ApplicationCreated;
 use Modules\Hr\Repositories\ApplicationRepository;
 
@@ -39,6 +41,12 @@ class PublicController extends BasePublicController
 
     public function form()
     {
+        if(setting('hr::user-login')) {
+            if ($this->auth->check() === false) {
+                return redirect()->guest(config('asgard.user.config.redirect_route_not_logged_in', 'auth/login'))->withError(trans('hr::applications.messages.user login required'));
+            }
+        }
+
         $title = trans('hr::applications.title.application');
 
         $this->setTitle($title)
@@ -52,32 +60,5 @@ class PublicController extends BasePublicController
         /* End Breadcrumbs */
 
         return view('hr::form');
-    }
-
-    public function create(CreateApplicationRequest $request)
-    {
-        try
-        {
-            if($request->ajax() || $request->wantsJson()) {
-
-                if($application = $this->application->create($request->all())) {
-                    if($email = setting('hr::email')) {
-                        \Mail::to($email)->queue(new ApplicationCreated($application));
-                    }
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'message' => trans('hr::applications.messages.success')
-                ]);
-            }
-        }
-        catch (\Exception $exception)
-        {
-            return response()->json([
-                'success' => false,
-                'message'  => $exception->getMessage()
-            ], Response::HTTP_BAD_REQUEST);
-        }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
 return [
-  'email' => 'E-Posta'
+    'email'      => 'E-Posta',
+    'user-login' => 'Kullanıcı girişi gerekli mi?'
 ];

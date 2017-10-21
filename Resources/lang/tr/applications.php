@@ -195,8 +195,10 @@ return [
         ]
     ],
     'messages'         => [
-        'notice' => 'Yukarıda verdiğim bilgi, adres, telefon ve diğer tüm açıklamaların doğru olduğunu, işe alınmam halinde; verdiğim yanlış bilgilerden dolayı, ortaya çıkabilecek tüm sorunlardan benim sorumlu olduğumu beyan eder; böyle bir durumda şirketin tüm yasal uygulamalarını peşinen kabul ederim.',
-        'success' => 'İş Başvuru Formunu başarıyla eklendi. İncelenerek tarafınıza en kısa zamanda geri dönüş yapılacaktır.'
+        'notice'              => 'Yukarıda verdiğim bilgi, adres, telefon ve diğer tüm açıklamaların doğru olduğunu, işe alınmam halinde; verdiğim yanlış bilgilerden dolayı, ortaya çıkabilecek tüm sorunlardan benim sorumlu olduğumu beyan eder; böyle bir durumda şirketin tüm yasal uygulamalarını peşinen kabul ederim.',
+        'success'             => 'İş Başvuru Formunu başarıyla eklendi. İncelenerek tarafınıza en kısa zamanda geri dönüş yapılacaktır.',
+        'update'              => 'İş Başvuru Formunuz güncellendi',
+        'user login required' => 'Üye girişi yapmanız gerekiyor.'
     ],
     'validation'       => [
     ],

@@ -18,7 +18,7 @@ class RegisterHrSidebar extends AbstractAdminSidebar
         $menu->group(trans('core::sidebar.content'), function (Group $group) {
             $group->item(trans('hr::hr.title.hr'), function (Item $item) {
                 $item->icon('fa fa-male');
-                $item->weight(10);
+                $item->weight(11);
                 $item->authorize(
                      /* append */
                 );

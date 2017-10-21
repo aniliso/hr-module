@@ -5,6 +5,7 @@ namespace Modules\Hr\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Hr\Presenters\ApplicationPresenter;
+use Modules\User\Entities\Sentinel\User;
 
 class Application extends Model
 {
@@ -24,15 +25,15 @@ class Application extends Model
         'reference'  => 'object',
         'experience' => 'object',
         'course'     => 'object',
-        'emergency'  => 'object'
+        'emergency'  => 'object',
+        'health'     => 'object',
+        'criminal'   => 'object'
     ];
 
     protected $presenter = ApplicationPresenter::class;
 
-    public function getIdentityAttribute()
+    public function user()
     {
-        $attribute = json_decode($this->attributes['identity']);
-        !isset($attribute->birthdate) ?: $attribute->birthdate = \Carbon\Carbon::parse($attribute->birthdate);
-        return $attribute;
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

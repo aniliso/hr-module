@@ -259,16 +259,16 @@
                                         <div class="form-group">
                                             <label>{{ trans('hr::applications.form.health_desc') }}</label>
 
-                                            <input type="radio" id="health.no" value="0" v-model="select.health" />
+                                            <input type="radio" id="health.no" value="0" v-model="application.health.status" v-on:click="application.health.desc = ''" />
                                             <label for="health.no">{{ trans('hr::applications.select.no') }}</label>
 
-                                            <input type="radio" id="health.yes" value="1" v-model="select.health" />
+                                            <input type="radio" id="health.yes" value="1" v-model="application.health.status" />
                                             <label for="health.yes">{{ trans('hr::applications.select.yes') }}</label>
 
-                                            <div v-if="select.health == 1">
+                                            <div v-if="application.health.status == 1">
                                                 <input class="browser-default form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.health') }}"
-                                                       v-model="application.health">
+                                                       v-model="application.health.desc">
                                             </div>
                                         </div>
                                     </div>
@@ -286,16 +286,16 @@
                                         <div class="form-group">
                                             <label>{{ trans('hr::applications.form.criminal_desc') }}</label>
 
-                                            <input type="radio" id="criminal.no" value="0" v-model="select.criminal" />
+                                            <input type="radio" id="criminal.no" value="0" v-model="application.criminal.status" v-on:click="application.criminal.desc = ''" />
                                             <label for="criminal.no">{{ trans('hr::applications.select.no') }}</label>
 
-                                            <input type="radio" id="criminal.yes" value="1" v-model="select.criminal" />
+                                            <input type="radio" id="criminal.yes" value="1" v-model="application.criminal.status" />
                                             <label for="criminal.yes">{{ trans('hr::applications.select.yes') }}</label>
 
-                                            <div v-if="select.criminal == 1">
+                                            <div v-if="application.criminal.status == 1">
                                                 <input class="browser-default form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.criminal') }}"
-                                                       v-model="application.criminal">
+                                                       v-model="application.criminal.desc">
                                             </div>
                                         </div>
                                     </div>
@@ -837,15 +837,17 @@
                             <p class="font-12">{{ trans('hr::applications.messages.notice') }}</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 m-top-bot-20">
-                            {!! Captcha::image('captcha_hr', ['v-model'=>'application.captcha_hr']) !!}
+                    @if(!setting('hr::user-login'))
+                        <div class="row">
+                            <div class="col-md-12 m-top-bot-20">
+                                {!! Captcha::image('captcha_hr', ['v-model'=>'application.captcha_hr']) !!}
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     <hr/>
                     <div class="row">
                         <div class="col-md-12 m-top-20">
-                            {!! BSForm::submit(trans('hr::applications.buttons.send'), ['class'=>'btn btn-primary']) !!}
+                            {!! BSForm::submit(trans('global.buttons.send'), ['class'=>'btn btn-primary']) !!}
                         </div>
                     </div>
                 </div>
@@ -856,7 +858,6 @@
 @endsection
 
 @push('js_inline')
-
 <script src="{!! Module::asset('hr:js/underscore-min.js') !!}"></script>
 <script src="{!! Module::asset('hr:js/loadingoverlay.min.js') !!}"></script>
 <script src="{!! Module::asset('hr:js/loadingoverlay_progress.min.js') !!}"></script>
@@ -866,7 +867,11 @@
 <script src="{!! Module::asset('hr:js/tr.js') !!}"></script>
 <script src="{!! Module::asset('hr:js/bootstrap-datetimepicker.min.js') !!}"></script>
 <link rel="stylesheet" href="{!! Module::asset('hr:css/bootstrap-datetimepicker.min.css') !!}" />
-<script src="{!! Module::asset('hr:js/vue.min.js') !!}"></script>
+@if(App::environment()=='production')
+    <script src="{!! Module::asset('hr:js/vue.min.js') !!}"></script>
+@else
+    <script src="{!! Module::asset('hr:js/vue.js') !!}"></script>
+@endif
 <script src="{!! Module::asset('hr:js/axios.min.js') !!}"></script>
 <script src="{!! Module::asset('hr:js/vue-bootstrap-datetimepicker.min.js') !!}"></script>
 
@@ -874,34 +879,99 @@
     //axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
     axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
+    Vue.config.devtools = true;
     var app = new Vue({
         el: '#app',
         data: {
             config: {
                 date: {
-                    format: 'DD.MM.YYYY'
+                    format: 'DD.MM.YYYY',
+                    extraFormats: [moment.ISO_8601, 'DD.MM.YYYY']
                 },
                 year: {
-                    format: 'YYYY'
+                    format: 'YYYY',
+                    extraFormats: [moment.ISO_8601, 'YYYY']
                 }
             },
-            select: {
-                health: null,
-                criminal: null
+            application: {
+                id: null,
+                gender: 1,
+                first_name: null,
+                last_name: null,
+                nationality: 1,
+                marital: 2,
+                health: { status: 0, desc: '' },
+                criminal: { status: 0, desc: '' },
+                captcha_hr: null,
+                identity: {
+                    birthdate: null,
+                    blood_group: null,
+                    birthplace: 6,
+                    bloodgroup: ''
+                },
+                driving: {
+                    type: '',
+                    no: null,
+                    issue_at: null
+                },
+                contact: {
+                    city: 6
+                },
+                language: [
+                    { lang: '' }
+                ],
+                skills: [
+                    { program: '' }
+                ],
+                education: [
+                    { status: '' }
+                ],
+                course: [
+                    {}
+                ],
+                experience: [
+                    {}
+                ],
+                reference: [
+                    {}
+                ],
+                emergency: [
+                    {}
+                ],
+                request: {
+                    price: null,
+                    work_time: '',
+                    travel: '',
+                    job_rotation: '',
+                    department: ''
+                }
             },
-            application: {},
             newApplication: {},
             formErrors: {
                 identity: {}
+            },
+            user_id: '{{ Auth::user()->id }}',
+            hasCaptcha: {{ setting('hr::user-login') ? 0 : 1 }}
+        },
+        created: function() {
+            this.newApplication = _.clone(this.application, true);
+        },
+        mounted: function() {
+            if(this.user_id) {
+                this.getUser(this.user_id);
             }
         },
-        created:function() {
-          this.addArray();
-        },
         methods: {
+            getDefaults: function() {
+                return _.clone(this.newApplication);
+            },
             addRow: function (index, id) {
                 if(id == 'language') {
                     this.application.language.splice(index + 1, 0, {});
+                    this.application.language[index+1].lang = '';
+                    this.application.language[index+1].write = 3;
+                    this.application.language[index+1].read  = 3;
+                    this.application.language[index+1].speak = 3;
                 } else if(id == 'skills') {
                     this.application.skills.splice(index + 1, 0, {});
                 } else if(id == 'education') {
@@ -935,19 +1005,15 @@
             },
             submitForm: function (e) {
                 e.preventDefault();
-                this.ajaxStart(true);
-                this.application.captcha_hr = grecaptcha.getResponse(this.application.captcha_hr);
-                axios.post('{{ route('hr.application.create') }}', this.application)
-                        .then(response => {
-                            this.ajaxStart(false);
-                            this.formErrors = {};
-                            this.clearArray();
-                            this.pnotify(response.data.message, "success");
-                        }).catch(error => {
-                            this.ajaxStart(false);
-                            this.pnotify(error.response.data.message);
-                            this.formErrors = error.response.data.message;
-                });
+                if(this.application.id != null) {
+                    this.applicationUpdate('{{ route('api.hr.application.update') }}');
+                } else {
+                    this.applicationUpdate('{{ route('api.hr.application.create') }}');
+                }
+                if(this.hasCaptcha) {
+                    this.application.captcha_hr = grecaptcha.getResponse(this.application.captcha_hr);
+                    grecaptcha.reset(this.application.captcha_hr);
+                }
             },
             ajaxStart: function (loading) {
                 if (loading) {
@@ -973,113 +1039,44 @@
                     type: type
                 });
             },
-            addArray: function() {
-                this.application = {
-                    gender: 1,
-                    first_name: null,
-                    last_name: null,
-                    nationality: 1,
-                    marital: 2,
-                    health: null,
-                    criminal: null,
-                    captcha_hr: null,
-                    identity: {
-                        birthdate: null,
-                        blood_group: null,
-                        birthplace: 6,
-                        bloodgroup: ''
-                    },
-                    driving: {
-                        type: '',
-                        no: null,
-                        issue_at: null
-                    },
-                    contact: {
-                        city: 6
-                    },
-                    language: [
-                        { lang: '' }
-                    ],
-                    skills: [
-                        { program: '' }
-                    ],
-                    education: [
-                        { status: '' }
-                    ],
-                    course: [
-                        {}
-                    ],
-                    experience: [
-                        {}
-                    ],
-                    reference: [
-                        {}
-                    ],
-                    emergency: [
-                        {}
-                    ],
-                    request: {
-                        price: null,
-                        work_time: '',
-                        travel: '',
-                        job_rotation: '',
-                        department: ''
+            applicationUpdate: function(route) {
+                this.ajaxStart(true);
+                let config = {
+                    headers: {
+                        @if($api_key = Authentication::user()->getFirstApiKey())
+                        'Authorization': 'Bearer ' + '{{ $api_key }}'
+                        @endif
                     }
-                }
+                };
+                axios.post(route, this.application, config)
+                        .then(response => {
+                            this.ajaxStart(false);
+                            this.formErrors = {};
+                            this.pnotify(response.data.message, "success");
+                        }).catch(error => {
+                                this.ajaxStart(false);
+                            this.pnotify(error.response.data.message);
+                            this.formErrors = error.response.data.message;
+                        });
             },
-            clearArray: function() {
-                this.application = {
-                    gender: 1,
-                    first_name: null,
-                    last_name: null,
-                    nationality: 1,
-                    marital: 2,
-                    health: null,
-                    criminal: null,
-                    captcha_hr: null,
-                    identity: {
-                        birthdate: null,
-                        blood_group: null,
-                        birthplace: 6,
-                        bloodgroup: ''
-                    },
-                    driving: {
-                        type: '',
-                        no: null,
-                        issue_at: null
-                    },
-                    contact: {
-                        city: 6
-                    },
-                    language: [
-                        { lang: '' }
-                    ],
-                    skills: [
-                        { program: '' }
-                    ],
-                    education: [
-                        { status: '' }
-                    ],
-                    course: [
-                        {}
-                    ],
-                    experience: [
-                        {}
-                    ],
-                    reference: [
-                        {}
-                    ],
-                    emergency: [
-                        {}
-                    ],
-                    request: {
-                        price: null,
-                        work_time: '',
-                        travel: '',
-                        job_rotation: '',
-                        department: ''
+            getUser: function(id) {
+                let config = {
+                    headers: {
+                        @if($api_key = Authentication::user()->getFirstApiKey())
+                        'Authorization': 'Bearer ' + '{{ $api_key }}'
+                        @endif
                     }
-                }
+                };
+                this.ajaxStart(true);
+                axios.get('{{ route('api.hr.application.user') }}?user_id='+id, config)
+                        .then(({ data })=> {
+                            this.application = JSON.parse(data.message);
+                            this.ajaxStart(false);
+                        }).catch(error => {
+                                this.pnotify(error.response.data.message, 'notice');
+                            this.formErrors = error.response.data.message;
+                            this.ajaxStart(false);
+                        });
             }
         }
     });
@@ -1125,6 +1122,8 @@
 </style>
 @endpush
 
-@push('js_inline')
-{!! Captcha::setLang(locale())->scriptWithCallback(['captcha_hr']) !!}
-@endpush
+@if(!setting('hr::user-login'))
+    @push('js_inline')
+    {!! Captcha::setLang(locale())->scriptWithCallback(['captcha_hr']) !!}
+    @endpush
+@endif

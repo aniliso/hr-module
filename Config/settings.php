@@ -6,4 +6,9 @@ return [
         'view'         => 'text',
         'translatable' => false,
     ],
+    'user-login' => [
+        'description'  => 'hr::settings.user-login',
+        'view'         => 'checkbox',
+        'translatable' => false,
+    ]
 ];

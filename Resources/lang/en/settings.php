@@ -1,5 +1,6 @@
 <?php
 
 return [
-  'email' => 'Email'
+  'email'      => 'Email',
+  'user-login' => 'User login required?'
 ];

@@ -43,7 +43,7 @@ class CreateApplicationRequest extends BaseFormRequest
             'course.*.name'          => 'required_with:course.*.company,course.*.issue_at',
             'course.*.company'       => 'required_with:course.*.name,course.*.issue_at',
             'course.*.issue_at'      => 'required_with:course.*.name,course.*.company',
-            'captcha_hr'             => 'required|captcha'
+            //'captcha_hr'             => 'required|captcha'
         ];
     }
 
