@@ -2,11 +2,11 @@
 
 @section('content-header')
     <h1>
-        {{ trans('hr::positions.title.positions') }}
+        {{ trans_choice('hr::positions.title.positions',[1]) }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('hr::positions.title.positions') }}</li>
+        <li class="active">{{ trans_choice('hr::positions.title.positions',[1]) }}</li>
     </ol>
 @stop
 

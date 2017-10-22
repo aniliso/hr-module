@@ -6,8 +6,8 @@
     İnsan Kaynakları Formu
     @endcomponent
 
-    <section class="section-padding md-p-top-bot-50 section-page">
-        <div class="container" id="app">
+    <section class="section-padding md-p-top-bot-50 section-page" id="app">
+        <div class="container">
             {!! Form::open(['v-on:submit'=>'submitForm', 'files'=>true, 'method'=>'post']) !!}
             <div class="row">
                 <div class="col-md-12">
@@ -847,11 +847,7 @@
                     <hr/>
                     <div class="row">
                         <div class="col-md-12 m-top-20">
-                            @if($currentUser)
-                                {!! BSForm::submit(trans('hr::applications.buttons.update'), ['class'=>'btn btn-primary']) !!}
-                            @else
-                                {!! BSForm::submit(trans('hr::applications.buttons.create'), ['class'=>'btn btn-primary']) !!}
-                            @endif
+                            {!! BSForm::submit(trans('hr::applications.buttons.create'), ['class'=>'btn btn-primary', 'v-bind:value'=>'button']) !!}
                         </div>
                     </div>
                 </div>
@@ -899,7 +895,7 @@
                 }
             },
             application: {
-                id: null,
+                id: '',
                 gender: 1,
                 first_name: '{{ $currentUser ? $currentUser->first_name : '' }}',
                 last_name: '{{ $currentUser ? $currentUser->last_name : '' }}',
@@ -958,13 +954,23 @@
                 identity: {}
             },
             hasCaptcha: {{ setting('hr::user-login') ? 0 : 1 }},
-            authorization_key: null
+            authorization_key: null,
+            button: '{{ trans('hr::applications.buttons.create') }}'
         },
         created: function() {
             this.newApplication    = _.clone(this.application, true);
             this.authorization_key = document.querySelector('meta[name="authorization"]').getAttribute('content');
+        },
+        mounted: function() {
             if(this.application.user_id) {
                 this.getUser(this.application.user_id);
+            }
+        },
+        updated: function() {
+            if(this.application.id != '') {
+                this.button = '{{ trans('hr::applications.buttons.update') }}';
+            } else {
+                this.button = '{{ trans('hr::applications.buttons.create') }}';
             }
         },
         methods: {
@@ -1011,7 +1017,7 @@
             },
             submitForm: function (e) {
                 e.preventDefault();
-                if(this.application.id != null) {
+                if(this.application.id != '') {
                     this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
                 } else {
                     this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
@@ -1060,7 +1066,7 @@
             },
             getUser: function(id) {
                 this.ajaxStart(true);
-                axios.get('{{ route('api.hr.application.user') }}?user_id='+id)
+                axios.get('{{ route('api.hr.application.user') }}')
                         .then(({ data })=> {
                             this.application = JSON.parse(data.message);
                             @if(isset($position))

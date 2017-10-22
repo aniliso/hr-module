@@ -22,7 +22,7 @@ class RegisterHrSidebar extends AbstractAdminSidebar
                 $item->authorize(
                      /* append */
                 );
-                $item->item(trans('hr::positions.title.positions'), function (Item $item) {
+                $item->item(trans_choice('hr::positions.title.positions',[1]), function (Item $item) {
                     $item->icon('fa fa-briefcase');
                     $item->weight(0);
                     $item->append('admin.hr.position.create');
