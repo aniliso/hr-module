@@ -196,10 +196,12 @@ return [
         ]
     ],
     'messages'         => [
-        'notice' => 'If the above information, address, telephone and all other explanations are correct, if not hired; I declare that I am responsible for all problems that may arise from misinformation I give; in such a case I accept all legal applications of the company in advance.',
-        'success' => 'The job application form has been successfully added. By reviewing, your party will be returned as soon as possible.',
-        'update'              => 'The job application form has been successfully updated.',
-        'user login required' => 'You need to login.'
+        'notice'                => 'If the above information, address, telephone and all other explanations are correct, if not hired; I declare that I am responsible for all problems that may arise from misinformation I give; in such a case I accept all legal applications of the company in advance.',
+        'success'               => 'The job application form has been successfully added. By reviewing, your party will be returned as soon as possible.',
+        'update'                => 'The job application form has been successfully updated.',
+        'user login required'   => 'You need to login.',
+        'application not found' => 'Application not found. Please fill the form.',
+        'load application'      => 'An application you\'ve done before has been loaded.'
     ],
     'validation'       => [
     ],

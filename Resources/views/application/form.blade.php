@@ -3,7 +3,7 @@
 @section('content')
 
     @component('partials.components.page-title', ['breadcrumb'=>'hr.application.form'])
-    İnsan Kaynakları Formu
+    {{ trans('hr::applications.title.application') }}
     @endcomponent
 
     <section class="section-padding md-p-top-bot-50 section-page" id="app">
@@ -876,11 +876,15 @@
 <script src="{!! Module::asset('hr:js/vue-bootstrap-datetimepicker.min.js') !!}"></script>
 
 <script>
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
+    @if($currentUser)
     axios.defaults.headers.common['Authorization'] = 'Bearer '+document.querySelector('meta[name="authorization"]').getAttribute('content');
+    @endif
+    @if(App::environment()=='local')
+    Vue.config.devtools = true;
+    @endif
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
     axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
-    Vue.config.devtools = true;
     var app = new Vue({
         el: '#app',
         data: {
@@ -966,14 +970,14 @@
                 this.getUser(this.application.user_id);
             }
         },
-        updated: function() {
-            if(this.application.id != '') {
-                this.button = '{{ trans('hr::applications.buttons.update') }}';
-            } else {
-                this.button = '{{ trans('hr::applications.buttons.create') }}';
-            }
-        },
         methods: {
+            buttonStatus: function() {
+                if(this.application.id != '') {
+                    this.button = '{{ trans('hr::applications.buttons.update') }}';
+                } else {
+                    this.button = '{{ trans('hr::applications.buttons.create') }}';
+                }
+            },
             getDefaults: function() {
                 return _.clone(this.newApplication);
             },
@@ -1021,6 +1025,7 @@
                     this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
                 } else {
                     this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
+                    this.getUser(this.user_id);
                 }
                 if(this.hasCaptcha) {
                     this.application.captcha_hr = grecaptcha.getResponse(this.application.captcha_hr);
@@ -1072,6 +1077,10 @@
                             @if(isset($position))
                                this.application.position_id = '{{ !isset($position) ? '' : $position->id }}';
                             @endif
+                            if(typeof data.notification != "undefined") {
+                                this.pnotify(data.notification, 'notice');
+                            }
+                            this.buttonStatus();
                             this.ajaxStart(false);
                         }).catch(error => {
                                 this.pnotify(error.response.data.message, 'notice');
