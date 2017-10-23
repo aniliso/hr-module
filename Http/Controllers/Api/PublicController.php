@@ -78,7 +78,7 @@ class PublicController extends BasePublicController
                     if ($application = $this->application->find($request->get('id'))) {
                         $this->application->update($application, $request->all());
                     } else {
-                        throw new \Exception('Başvuru formu kaydı hatalı');
+                        throw new \Exception(trans('hr::applications.messages.application not found'));
                     }
                 }
             } else {

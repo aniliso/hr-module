@@ -13,6 +13,7 @@ class Application extends Model
 
     protected $table = 'hr__applications';
     protected $fillable = ['user_id', 'position_id', 'gender', 'first_name', 'last_name', 'nationality', 'marital', 'health', 'criminal', 'request', 'identity', 'driving', 'contact', 'skills', 'education', 'language', 'reference', 'experience', 'course', 'emergency', 'size'];
+    public $timestamps = true;
 
     protected $casts = [
         'request'    => 'object',
@@ -40,5 +41,14 @@ class Application extends Model
     public function position()
     {
         return $this->hasOne(Position::class, 'id', 'position_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($application) {
+           $application->updated_at = \Carbon\Carbon::now();
+        });
     }
 }

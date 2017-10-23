@@ -28,6 +28,7 @@
                             <th>{{ trans('hr::applications.form.first_name') }}</th>
                             <th>{{ trans('hr::applications.form.identity.birthdate') }}</th>
                             <th>{{ trans('hr::applications.form.marital') }}</th>
+                            <th>{{ trans('core::core.table.updated at') }}</th>
                             <th>{{ trans('core::core.table.created at') }}</th>
                             <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                         </tr>
@@ -42,6 +43,11 @@
                             <td>{{ $application->present()->fullname }}</td>
                             <td>{{ $application->present()->identity('birthdate') }}</td>
                             <td>{{ $application->present()->marital }}</td>
+                            <td>
+                                <a href="{{ route('admin.hr.application.edit', [$application->id]) }}">
+                                    {{ $application->updated_at->formatLocalized('%d %B %Y %H:%M') }}
+                                </a>
+                            </td>
                             <td>
                                 <a href="{{ route('admin.hr.application.edit', [$application->id]) }}">
                                     {{ $application->created_at->formatLocalized('%d %B %Y %H:%M') }}
