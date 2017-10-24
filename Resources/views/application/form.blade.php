@@ -847,7 +847,7 @@
                     <hr/>
                     <div class="row">
                         <div class="col-md-12 m-top-20">
-                            {!! BSForm::submit(trans('hr::applications.buttons.create'), ['class'=>'btn btn-primary', 'v-bind:value'=>'button']) !!}
+                            {!! Form::submit(trans('hr::applications.buttons.create'), ['class'=>'btn btn-default btn btn-primary', 'v-bind:value'=>'button']) !!}
                         </div>
                     </div>
                 </div>

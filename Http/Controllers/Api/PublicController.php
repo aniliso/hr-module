@@ -5,10 +5,12 @@ namespace Modules\Hr\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Core\Http\Controllers\BasePublicController;
+use Modules\Hr\Entities\Application;
 use Modules\Hr\Http\Requests\CreateApplicationRequest;
 use Modules\Hr\Http\Requests\UpdateApplicationRequest;
 use Modules\Hr\Mail\ApplicationCreated;
 use Modules\Hr\Repositories\ApplicationRepository;
+use Modules\Hr\Services\GoogleDrive;
 use Modules\User\Traits\CanFindUserWithBearerToken;
 
 class PublicController extends BasePublicController
@@ -16,13 +18,36 @@ class PublicController extends BasePublicController
     use CanFindUserWithBearerToken;
 
     private $application;
+    /**
+     * @var GoogleDrive
+     */
+    private $googleDrive;
 
     public function __construct(
-        ApplicationRepository $application
+        ApplicationRepository $application,
+        GoogleDrive $googleDrive
     )
     {
         parent::__construct();
         $this->application = $application;
+        $this->googleDrive = $googleDrive;
+        $this->googleDrive->setFolder(storage_path('app/modules/hr'));
+    }
+
+    private function _googleDriveUpload(Application $application) {
+
+        if(!\File::isDirectory(storage_path('app/modules/hr'))) {
+            \File::makeDirectory(storage_path('app/modules/hr'));
+        }
+
+        $file = "{$application->id}_{$application->first_name}_{$application->last_name}.pdf";
+        $folder = $this->googleDrive->getFolder();
+        $this->googleDrive->setFile($file);
+
+        $pdf = \PDF::loadView('hr::pdf.application', ['application'=>$application]);
+        $pdf->save($folder.'/'.$file);
+
+        $this->googleDrive->upload(file_get_contents($folder.'/'.$file));
     }
 
     public function view(Request $request)
@@ -56,6 +81,7 @@ class PublicController extends BasePublicController
                 if ($email = setting('hr::email')) {
                     \Mail::to($email)->queue(new ApplicationCreated($application));
                 }
+                $this->_googleDriveUpload($application);
             }
             return response()->json([
                 'success' => true,
@@ -77,6 +103,7 @@ class PublicController extends BasePublicController
                 if (setting('hr::user-login') && $request->get('id') && \Auth::check()) {
                     if ($application = $this->application->find($request->get('id'))) {
                         $this->application->update($application, $request->all());
+                        $this->_googleDriveUpload($application);
                     } else {
                         throw new \Exception(trans('hr::applications.messages.application not found'));
                     }

@@ -31,6 +31,17 @@ class ApplicationController extends AdminBaseController
      */
     public function index()
     {
+        $filename = 'basvuru_19.pdf';
+
+        $dir = '/';
+        $recursive = false; // Get subdirectories also?
+        $contents = collect(\Storage::cloud()->listContents($dir, $recursive));
+
+        $file = $contents->where('filename', '=', pathinfo(storage_path('app/modules/hr/'.$filename), PATHINFO_FILENAME))->first();
+
+        \Storage::cloud()->delete($file['path']);
+
+        dd($contents);
         $applications = $this->application->all();
 
         return view('hr::admin.applications.index', compact('applications'));
