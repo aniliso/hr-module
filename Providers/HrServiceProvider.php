@@ -48,11 +48,11 @@ class HrServiceProvider extends ServiceProvider
 
         \Storage::extend('google', function($app, $config) {
            $client = new \Google_Client();
-           $client->setClientId($config['clientId']);
-           $client->setClientSecret($config['clientSecret']);
-           $client->refreshToken($config['refreshToken']);
+           $client->setClientId(setting('hr::clientId') ?? $config['clientId']);
+           $client->setClientSecret(setting('hr::clientSecret') ?? $config['clientSecret']);
+           $client->refreshToken(setting('hr::refreshToken') ?? $config['refreshToken']);
            $service = new \Google_Service_Drive($client);
-           $adapter = new \Hypweb\Flysystem\GoogleDrive\GoogleDriveAdapter($service, $config['folderId']);
+           $adapter = new \Hypweb\Flysystem\GoogleDrive\GoogleDriveAdapter($service, setting('hr::folderId') ?? $config['folderId']);
            return new \League\Flysystem\Filesystem($adapter);
         });
     }

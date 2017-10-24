@@ -877,12 +877,12 @@
 
 <script>
     @if($currentUser)
-    axios.defaults.headers.common['Authorization'] = 'Bearer '+document.querySelector('meta[name="authorization"]').getAttribute('content');
+            axios.defaults.headers.common['Authorization'] = 'Bearer '+document.querySelector('meta[name="authorization"]').getAttribute('content');
     @endif
-    @if(App::environment()=='local')
-    Vue.config.devtools = true;
+            @if(App::environment()=='local')
+            Vue.config.devtools = true;
     @endif
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
+            axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
     axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
     var app = new Vue({
@@ -1060,33 +1060,33 @@
                 this.ajaxStart(true);
                 axios.post(route, data)
                         .then(response => {
-                            this.ajaxStart(false);
-                            this.formErrors = {};
-                            this.pnotify(response.data.message, "success");
-                        }).catch(error => {
-                                this.ajaxStart(false);
-                            this.pnotify(error.response.data.message);
-                            this.formErrors = error.response.data.message;
-                        });
+                    this.ajaxStart(false);
+                this.formErrors = {};
+                this.pnotify(response.data.message, "success");
+            }).catch(error => {
+                    this.ajaxStart(false);
+                this.pnotify(error.response.data.message, "notice");
+                this.formErrors = error.response.data.message;
+            });
             },
             getUser: function(id) {
                 this.ajaxStart(true);
                 axios.get('{{ route('api.hr.application.user') }}')
                         .then(({ data })=> {
-                            this.application = JSON.parse(data.message);
-                            @if(isset($position))
-                               this.application.position_id = '{{ !isset($position) ? '' : $position->id }}';
-                            @endif
-                            if(typeof data.notification != "undefined") {
-                                this.pnotify(data.notification, 'notice');
-                            }
-                            this.buttonStatus();
-                            this.ajaxStart(false);
-                        }).catch(error => {
-                                this.pnotify(error.response.data.message, 'notice');
-                            this.formErrors = error.response.data.message;
-                            this.ajaxStart(false);
-                        });
+                    this.application = JSON.parse(data.message);
+                @if(isset($position))
+                        this.application.position_id = '{{ !isset($position) ? '' : $position->id }}';
+                @endif
+                if(typeof data.notification != "undefined") {
+                    this.pnotify(data.notification, 'notice');
+                }
+                this.buttonStatus();
+                this.ajaxStart(false);
+            }).catch(error => {
+                    this.pnotify(error.response.data.message, 'notice');
+                this.formErrors = error.response.data.message;
+                this.ajaxStart(false);
+            });
             }
         }
     });

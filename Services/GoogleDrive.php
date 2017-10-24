@@ -11,7 +11,7 @@ class GoogleDrive
 
     public function __construct()
     {
-        $this->storage = Storage::cloud();
+        $this->storage = Storage::drive('google');
     }
 
     public function folderList($dir='/')

@@ -18,36 +18,38 @@ class PublicController extends BasePublicController
     use CanFindUserWithBearerToken;
 
     private $application;
-    /**
-     * @var GoogleDrive
-     */
-    private $googleDrive;
 
     public function __construct(
-        ApplicationRepository $application,
-        GoogleDrive $googleDrive
+        ApplicationRepository $application
     )
     {
         parent::__construct();
         $this->application = $application;
-        $this->googleDrive = $googleDrive;
-        $this->googleDrive->setFolder(storage_path('app/modules/hr'));
     }
 
     private function _googleDriveUpload(Application $application) {
+        if(env('GOOGLE_DRIVE_CLIENT_ID') || setting('hr::clientId')) {
+            $googleDrive = app(GoogleDrive::class);
 
-        if(!\File::isDirectory(storage_path('app/modules/hr'))) {
-            \File::makeDirectory(storage_path('app/modules/hr'));
+            if(!\File::isDirectory(storage_path('app/modules'))) {
+                \File::makeDirectory(storage_path('app/modules'));
+            }
+
+            if(!\File::isDirectory(storage_path('app/modules/hr'))) {
+                \File::makeDirectory(storage_path('app/modules/hr'));
+            }
+
+            $googleDrive->setFolder(storage_path('app/modules/hr'));
+
+            $file = "{$application->id}_{$application->first_name}_{$application->last_name}.pdf";
+            $folder = $googleDrive ->getFolder();
+            $googleDrive->setFile($file);
+
+            $pdf = \PDF::loadView('hr::pdf.application', ['application'=>$application]);
+            $pdf->save($folder.'/'.$file);
+
+            $googleDrive->upload(file_get_contents($folder.'/'.$file));
         }
-
-        $file = "{$application->id}_{$application->first_name}_{$application->last_name}.pdf";
-        $folder = $this->googleDrive->getFolder();
-        $this->googleDrive->setFile($file);
-
-        $pdf = \PDF::loadView('hr::pdf.application', ['application'=>$application]);
-        $pdf->save($folder.'/'.$file);
-
-        $this->googleDrive->upload(file_get_contents($folder.'/'.$file));
     }
 
     public function view(Request $request)
