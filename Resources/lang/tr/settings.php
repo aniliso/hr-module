@@ -6,5 +6,5 @@ return [
     'clientId'     => 'Google Drive İstemci Kimliği',
     'clientSecret' => 'Google Drive İstemci Gizli Anahtarı',
     'refreshToken' => 'Google Drive Yenileme Anahtarı',
-    'folderId'     => 'Google Drive Klasör Yolu'
+    'folderId'     => 'Google Drive Klasör Adı'
 ];
