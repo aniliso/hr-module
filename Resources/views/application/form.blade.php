@@ -1065,7 +1065,7 @@
                 this.pnotify(response.data.message, "success");
             }).catch(error => {
                     this.ajaxStart(false);
-                this.pnotify(error.response.data.message, "notice");
+                this.pnotify(error.response.data.message);
                 this.formErrors = error.response.data.message;
             });
             },

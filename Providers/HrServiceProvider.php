@@ -43,18 +43,19 @@ class HrServiceProvider extends ServiceProvider
         $this->publishConfig('hr', 'permissions');
         $this->publishConfig('hr', 'config');
         $this->publishConfig('hr', 'settings');
-
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
-        \Storage::extend('google', function($app, $config) {
-           $client = new \Google_Client();
-           $client->setClientId(setting('hr::clientId') ?? $config['clientId']);
-           $client->setClientSecret(setting('hr::clientSecret') ?? $config['clientSecret']);
-           $client->refreshToken(setting('hr::refreshToken') ?? $config['refreshToken']);
-           $service = new \Google_Service_Drive($client);
-           $adapter = new \Hypweb\Flysystem\GoogleDrive\GoogleDriveAdapter($service, setting('hr::folderId') ?? $config['folderId']);
-           return new \League\Flysystem\Filesystem($adapter);
-        });
+        if(! \App::runningInConsole()) {
+            \Storage::extend('google', function ($app, $config) {
+                $client = new \Google_Client();
+                $client->setClientId(setting('hr::clientId') ?? $config['clientId']);
+                $client->setClientSecret(setting('hr::clientSecret') ?? $config['clientSecret']);
+                $client->refreshToken(setting('hr::refreshToken') ?? $config['refreshToken']);
+                $service = new \Google_Service_Drive($client);
+                $adapter = new \Hypweb\Flysystem\GoogleDrive\GoogleDriveAdapter($service, setting('hr::folderId') ?? $config['folderId']);
+                return new \League\Flysystem\Filesystem($adapter);
+            });
+        }
     }
 
     /**
@@ -64,7 +65,9 @@ class HrServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array();
+        return [
+            \Barryvdh\DomPDF\ServiceProvider::class
+        ];
     }
 
     private function registerBindings()
