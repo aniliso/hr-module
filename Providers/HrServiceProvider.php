@@ -30,6 +30,12 @@ class HrServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
+
+        $this->app->extend('asgard.ModulesList', function($app) {
+            array_push($app, 'hr');
+            return $app;
+        });
+
         $this->app['events']->listen(
             BuildingSidebar::class,
             $this->getSidebarClassForModule('Hr', RegisterHrSidebar::class)
