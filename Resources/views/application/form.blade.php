@@ -882,7 +882,7 @@
             @if(App::environment()=='local')
             Vue.config.devtools = true;
     @endif
-            axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
     axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
     var app = new Vue({
