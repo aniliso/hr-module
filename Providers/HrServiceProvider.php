@@ -41,7 +41,9 @@ class HrServiceProvider extends ServiceProvider
             $this->getSidebarClassForModule('Hr', RegisterHrSidebar::class)
         );
         $this->registerFacades();
-        $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
+        if($this->app->runningInConsole()===false && class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
+            $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
+        }
     }
 
     public function boot()
@@ -71,9 +73,13 @@ class HrServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [
-            \Barryvdh\DomPDF\ServiceProvider::class
-        ];
+        if($this->app->runningInConsole()===false && class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
+            return [];
+        } else {
+            return [
+                \Barryvdh\DomPDF\ServiceProvider::class
+            ];
+        }
     }
 
     private function registerBindings()

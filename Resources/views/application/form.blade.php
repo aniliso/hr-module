@@ -882,7 +882,7 @@
             @if(App::environment()=='local')
             Vue.config.devtools = true;
     @endif
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
+            axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
     axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
     var app = new Vue({
@@ -1065,8 +1065,8 @@
                 this.pnotify(response.data.message, "success");
             }).catch(error => {
                     this.ajaxStart(false);
-                this.pnotify(error.response.data.message);
-                this.formErrors = error.response.data.message;
+					this.pnotify(error.response.data.message);
+					this.formErrors = error.response.data.message;
             });
             },
             getUser: function(id) {
@@ -1084,7 +1084,7 @@
                 this.ajaxStart(false);
             }).catch(error => {
                     this.pnotify(error.response.data.message, 'notice');
-                this.formErrors = error.response.data.message;
+                // this.formErrors = error.response.data.message;
                 this.ajaxStart(false);
             });
             }
