@@ -82,7 +82,11 @@ return [
                 1 => 'Administration',
                 2 => 'Accounting',
                 3 => 'Human Resource',
-                4 => 'Production'
+                4 => 'Production',
+                5 => 'Kindergarten',
+                6 => 'First School',
+                7 => 'Middle School',
+                8 => 'High School'
             ]
         ]
     ],

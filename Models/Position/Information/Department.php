@@ -11,7 +11,11 @@ class Department extends BaseOption
             1  => trans('hr::positions.form.select.department.1'),
             2  => trans('hr::positions.form.select.department.2'),
             3  => trans('hr::positions.form.select.department.3'),
-            4  => trans('hr::positions.form.select.department.4')
+            4  => trans('hr::positions.form.select.department.4'),
+            5  => trans('hr::positions.form.select.department.5'),
+            6  => trans('hr::positions.form.select.department.6'),
+            7  => trans('hr::positions.form.select.department.7'),
+            8  => trans('hr::positions.form.select.department.8'),
         ];
     }
 }

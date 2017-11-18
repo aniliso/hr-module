@@ -82,7 +82,11 @@ return [
                 1 => 'Yönetim',
                 2 => 'Muhasebe',
                 3 => 'İnsan Kaynakları',
-                4 => 'Üretim'
+                4 => 'Üretim',
+                5 => 'Anaokulu',
+                6 => 'İlkokul',
+                7 => 'Ortaokul',
+                8 => 'Lise'
             ]
         ]
     ],
