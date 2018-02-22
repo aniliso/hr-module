@@ -86,10 +86,10 @@ class ApplicationPresenter extends BasePresenter
             $experiences = collect($this->entity->experience);
             return $experiences->map(function($experience) {
                 if(isset($experience->start_at)) {
-                    $experience->start_at = Carbon::parse($experience->start_at)->formatLocalized('%d %B %Y');
+                    $experience->start_at = Carbon::parse($experience->start_at)->format('d/m/Y');
                 }
                 if(isset($experience->end_at)) {
-                    $experience->end_at = Carbon::parse($experience->end_at)->formatLocalized('%d %B %Y');
+                    $experience->end_at = Carbon::parse($experience->end_at)->format('d/m/Y');
                 }
                 return $experience;
             });
@@ -102,7 +102,7 @@ class ApplicationPresenter extends BasePresenter
             $courses = collect($this->entity->course);
             return $courses->map(function($course) {
                 if(isset($course->issue_at)) {
-                    $course->issue_at = Carbon::parse($course->issue_at)->formatLocalized('%d %B %Y');
+                    $course->issue_at = Carbon::parse($course->issue_at)->format('d/m/Y');
                 } else {
                     $course = new \stdClass();
                     $course->issue_at = null;
@@ -155,12 +155,12 @@ class ApplicationPresenter extends BasePresenter
             $educations = collect($this->entity->education);
             return $educations->map(function($education) {
                 if(isset($education->start_at)) {
-                    $education->start_at = Carbon::parse($education->start_at)->formatLocalized('%d %B %Y');
+                    $education->start_at = Carbon::parse($education->start_at)->format('d/m/Y');
                 } else {
                     $education->start_at = null;
                 }
                 if(isset($education->end_at)) {
-                    $education->end_at = Carbon::parse($education->end_at)->formatLocalized('%d %B %Y');
+                    $education->end_at = Carbon::parse($education->end_at)->format('d/m/Y');
                 } else {
                     $education->end_at = null;
                 }
@@ -203,7 +203,7 @@ class ApplicationPresenter extends BasePresenter
     public function identity($field="")
     {
         if($field == 'birthdate' && isset($this->entity->identity->{$field})) {
-            return Carbon::parse($this->entity->identity->{$field})->formatLocalized('%d %B %Y');
+            return Carbon::parse($this->entity->identity->{$field})->format('d/m/Y');
         }
         if($field == 'birthplace' && isset($this->entity->identity->{$field})) {
             return \HrInformation::city()->get($this->entity->identity->{$field});
@@ -222,7 +222,7 @@ class ApplicationPresenter extends BasePresenter
             return \HrApplication::driving()->get($this->entity->driving->{$field});
         }
         if($field == 'issue_at' && isset($this->entity->driving->{$field})) {
-            return Carbon::parse($this->entity->driving->{$field})->formatLocalized('%Y');
+            return Carbon::parse($this->entity->driving->{$field})->format('Y');
         }
         if(isset($this->entity->driving->{$field})) {
             return $this->entity->driving->{$field};

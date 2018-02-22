@@ -877,12 +877,12 @@
 
 <script>
     @if($currentUser)
-            axios.defaults.headers.common['Authorization'] = 'Bearer '+document.querySelector('meta[name="authorization"]').getAttribute('content');
+            axios.defaults.headers.common['Authorization'] = 'Bearer {{ csrf_token() }}';
     @endif
             @if(App::environment()=='local')
             Vue.config.devtools = true;
     @endif
-            axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="token"]').getAttribute('content');
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = 'Bearer {{ csrf_token() }}';
     axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
     var app = new Vue({
@@ -963,7 +963,7 @@
         },
         created: function() {
             this.newApplication    = _.clone(this.application, true);
-            this.authorization_key = document.querySelector('meta[name="authorization"]').getAttribute('content');
+            this.authorization_key = '{{ csrf_token() }}';
         },
         mounted: function() {
             if(this.application.user_id) {
@@ -1021,15 +1021,25 @@
             },
             submitForm: function (e) {
                 e.preventDefault();
-                if(this.application.id != '') {
-                    this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
-                } else {
-                    this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
-                    this.getUser(this.user_id);
-                }
+                @if($currentUser)
+                    if(this.application.id != '') {
+                        this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
+                    } else {
+                        this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
+                        this.getUser(this.user_id);
+                    }
+                @else
+                    if(this.application.id != '') {
+                        this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
+                    } else {
+                        this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
+                    }
+
+                @endif
+
                 if(this.hasCaptcha) {
-                    this.application.captcha_hr = grecaptcha.getResponse(this.application.captcha_hr);
-                    grecaptcha.reset(this.application.captcha_hr);
+                    this.application.captcha_hr = grecaptcha.getResponse(captcha_hr);
+                    grecaptcha.reset(captcha_hr);
                 }
             },
             ajaxStart: function (loading) {
