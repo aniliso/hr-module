@@ -11,6 +11,8 @@
             {!! Form::open(['v-on:submit'=>'submitForm', 'files'=>true, 'method'=>'post']) !!}
             <div class="row">
                 <div class="col-md-12">
+                    <h1 class="title h-line">{{ trans('themes::hr.title.hr') }}</h1>
+                    <!-- Kişisel Bilgiler -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -19,7 +21,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>{{ trans('hr::applications.form.gender') }}</label>
-                                            <select class="browser-default form-control" name="gender" class="select"
+                                            <select class="form-control select" name="gender"
                                                     v-model="application.gender">
                                                 @foreach(HrApplication::gender()->lists() as $key => $gender)
                                                     <option value="{{ $key }}">{{ $gender }}</option>
@@ -30,7 +32,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group" :class="{ 'has-error' : formErrors.first_name }">
                                             <label class="browser-default">{{ trans('hr::applications.form.first_name') }}</label>
-                                            <input class="browser-default form-control" id="first_name" type="text"
+                                            <input class="form-control" id="first_name" type="text"
                                                    placeholder="{{ trans('hr::applications.form.first_name') }}"
                                                    v-model="application.first_name">
                                         </div>
@@ -38,7 +40,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group" :class="{ 'has-error' : formErrors.last_name }">
                                             <label>{{ trans('hr::applications.form.last_name') }}</label>
-                                            <input class="browser-default form-control" id="last_name" type="text"
+                                            <input class="form-control" id="last_name" type="text"
                                                    placeholder="{{ trans('hr::applications.form.last_name') }}"
                                                    v-model="application.last_name">
                                         </div>
@@ -46,7 +48,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>{{ trans('hr::applications.form.nationality') }}</label>
-                                            <select class="browser-default form-control select" name="nationality"
+                                            <select class="form-control select" name="nationality"
                                                     v-model="application.nationality">
                                                 @foreach(HrApplication::nationality()->lists() as $key => $gender)
                                                     <option value="{{ $key }}">{{ $gender }}</option>
@@ -57,7 +59,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>{{ trans('hr::applications.form.marital') }}</label>
-                                            <select class="browser-default form-control" name="marital"
+                                            <select class="form-control" name="marital"
                                                     v-model="application.marital">
                                                 @foreach(HrApplication::marital()->lists() as $key => $marital)
                                                     <option value="{{ $key }}">{{ $marital }}</option>
@@ -69,6 +71,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Kimlik Bilgisi -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -85,7 +88,7 @@
                                         <div class="form-group"
                                              :class="{ 'has-error' : formErrors['identity.birthplace'] }">
                                             <label>{{ trans('hr::applications.form.identity.birthplace') }}</label>
-                                            <select class="browser-default form-control select"
+                                            <select class="form-control select"
                                                     v-model="application.identity.birthplace">
                                                 @foreach(HrInformation::city()->lists() as $key => $city)
                                                     <option value="{{ $key }}">{{ $city }}</option>
@@ -96,7 +99,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{ trans('hr::applications.form.identity.bloodgroup') }}</label>
-                                            <select class="browser-default form-control select"
+                                            <select class="form-control select"
                                                     v-model="application.identity.blood_group">
                                                 @foreach(HrApplication::bloodgroup()->lists() as $key => $blood)
                                                     <option value="{{ $key }}">{{ $blood }}</option>
@@ -109,7 +112,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['identity.no'] }">
                                             <label class="browser-default">{{ trans('hr::applications.form.identity.no') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.identity.no') }}"
                                                    v-model="application.identity.no">
                                         </div>
@@ -117,7 +120,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="browser-default">{{ trans('hr::applications.form.identity.sgk') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.identity.sgk') }}"
                                                    v-model="application.identity.sgk">
                                         </div>
@@ -125,7 +128,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="browser-default">{{ trans('hr::applications.form.identity.tax') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.identity.tax') }}"
                                                    v-model="application.identity.tax">
                                         </div>
@@ -134,6 +137,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- İletişim Bilgileri -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -143,7 +147,7 @@
                                         <div class="form-group"
                                              :class="{ 'has-error' : formErrors['contact.address1'] }">
                                             <label>{{ trans('hr::applications.form.contacts.address1') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.contacts.address1') }}"
                                                    v-model="application.contact.address1">
                                         </div>
@@ -152,7 +156,7 @@
                                         <div class="form-group"
                                              :class="{ 'has-error' : formErrors['contact.address2'] }">
                                             <label>{{ trans('hr::applications.form.contacts.address2') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.contacts.address2') }}"
                                                    v-model="application.contact.address2">
                                         </div>
@@ -160,7 +164,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['contact.county'] }">
                                             <label>{{ trans('hr::applications.form.contacts.county') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.contacts.county') }}"
                                                    v-model="application.contact.county">
                                         </div>
@@ -168,7 +172,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['contact.city'] }">
                                             <label>{{ trans('hr::applications.form.contacts.city') }}</label>
-                                            <select class="browser-default form-control select"
+                                            <select class="form-control select"
                                                     v-model="application.contact.city">
                                                 @foreach(HrInformation::city()->lists() as $key => $city)
                                                     <option value="{{ $key }}">{{ $city }}</option>
@@ -181,7 +185,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['contact.phone'] }">
                                             <label>{{ trans('hr::applications.form.contacts.phone') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.contacts.phone') }}"
                                                    v-model="application.contact.phone">
                                         </div>
@@ -189,7 +193,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['contact.gsm'] }">
                                             <label>{{ trans('hr::applications.form.contacts.gsm') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.contacts.gsm') }}"
                                                    v-model="application.contact.gsm">
                                         </div>
@@ -198,7 +202,7 @@
                                         <div class="form-group"
                                              :class="{ 'has-error' : formErrors['contact.postcode'] }">
                                             <label>{{ trans('hr::applications.form.contacts.postcode') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.contacts.postcode') }}"
                                                    v-model="application.contact.postcode">
                                         </div>
@@ -206,7 +210,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['contact.email'] }">
                                             <label>{{ trans('hr::applications.form.contacts.email') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.contacts.email') }}"
                                                    v-model="application.contact.email">
                                         </div>
@@ -215,6 +219,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Sürücü Belgesi -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -223,7 +228,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['driving.type'] }">
                                             <label>{{ trans('hr::applications.form.driver.type') }}</label>
-                                            <select class="browser-default form-control select"
+                                            <select class="form-control select"
                                                     v-model="application.driving.type">
                                                 @foreach(HrApplication::driving()->lists() as $key => $gender)
                                                     <option value="{{ $key }}">{{ $gender }}</option>
@@ -234,7 +239,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['driving.no'] }">
                                             <label>{{ trans('hr::applications.form.driver.no') }}</label>
-                                            <input class="browser-default form-control" type="text"
+                                            <input class="form-control" type="text"
                                                    placeholder="{{ trans('hr::applications.form.driver.no') }}"
                                                    v-model="application.driving.no">
                                         </div>
@@ -249,6 +254,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Sağlık Durumu -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -266,7 +272,7 @@
                                             <label for="health.yes">{{ trans('hr::applications.select.yes') }}</label>
 
                                             <div v-if="application.health.status == 1">
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.health') }}"
                                                        v-model="application.health.desc">
                                             </div>
@@ -276,6 +282,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Sabıka Durumu -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -293,7 +300,7 @@
                                             <label for="criminal.yes">{{ trans('hr::applications.select.yes') }}</label>
 
                                             <div v-if="application.criminal.status == 1">
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.criminal') }}"
                                                        v-model="application.criminal.desc">
                                             </div>
@@ -303,6 +310,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Kişisel Beceriler -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -322,7 +330,7 @@
                                         <div class="col-md-3" v-if="skill.program == 7">
                                             <div class="form-group" :class="{ 'has-error' : formErrors['skills.'+key+'.other'] }">
                                                 <label v-if="key == 0">{{ trans('hr::applications.select.skills.other') }}</label>
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.select.skills.other') }}"
                                                        v-model="skill.other">
                                             </div>
@@ -346,13 +354,10 @@
                                         <div class="col-md-3">
                                             <label v-if="key == 0">&nbsp;</label>
                                             <div class="form-group">
-                                                <a class="btn-floating waves-effect waves-light red"
+                                                <a class="btn-floating"
                                                    v-on:click="addRow(key, 'skills')"
-                                                   v-if="application.skills.length < {{ count(HrApplication::skill()->lists()) }}"><i
-                                                            class="material-icons">add</i></a>
-                                                <a class="btn-floating waves-effect waves-light red"
-                                                   v-on:click="removeRow(key, 'skills')" v-if="key > 0"><i
-                                                            class="material-icons">remove</i></a>
+                                                   v-if="application.skills.length < {{ count(HrApplication::skill()->lists()) }}"><i class="fa fa-plus"></i></a>
+                                                <a class="btn-floating" v-on:click="removeRow(key, 'skills')" v-if="key > 0"><i class="fa fa-minus"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -360,6 +365,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Yabancı Dil Bilgisi -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -431,13 +437,11 @@
                                         <div class="col-md-2">
                                             <label v-if="key == 0">&nbsp;</label>
                                             <div class="form-group">
-                                                <a class="btn-floating waves-effect waves-light red"
+                                                <a class="btn-floating"
                                                    v-on:click="addRow(key, 'language')"
-                                                   v-if="application.language.length < {{ count(HrApplication::language()->lists()) }}"><i
-                                                            class="material-icons">add</i></a>
-                                                <a class="btn-floating waves-effect waves-light red"
-                                                   v-on:click="removeRow(key, 'language')" v-if="key > 0"><i
-                                                            class="material-icons">remove</i></a>
+                                                   v-if="application.language.length < {{ count(HrApplication::language()->lists()) }}"><i class="fa fa-plus"></i></a>
+                                                <a class="btn-floating"
+                                                   v-on:click="removeRow(key, 'language')" v-if="key > 0"><i class="fa fa-minus"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -445,6 +449,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Öğrenim Durumu -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -472,7 +477,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group" :class="{ 'has-error' : formErrors['education.'+key+'.name'] }">
                                                         <label v-if="key == 0">{{ trans('hr::applications.form.educate.name') }}</label>
-                                                        <input class="browser-default form-control" type="text"
+                                                        <input class="form-control" type="text"
                                                                placeholder="{{ trans('hr::applications.form.educate.name') }}"
                                                                v-model="educate.name">
                                                     </div>
@@ -480,7 +485,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group" :class="{ 'has-error' : formErrors['education.'+key+'.branch'] }">
                                                         <label v-if="key == 0">{{ trans('hr::applications.form.educate.branch') }}</label>
-                                                        <input class="browser-default form-control" type="text"
+                                                        <input class="form-control" type="text"
                                                                placeholder="{{ trans('hr::applications.form.educate.branch') }}"
                                                                v-model="educate.branch">
                                                     </div>
@@ -492,7 +497,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group" :class="{ 'has-error' : formErrors['education.'+key+'.status'] }">
                                                         <label v-if="key == 0">{{ trans('hr::applications.form.educate.status') }}</label>
-                                                        <select class="browser-default form-control" class="select"
+                                                        <select class="form-control" class="select"
                                                                 v-model="educate.status">
                                                             @foreach(HrApplication::educationStatus()->lists() as $key => $status)
                                                                 <option value="{{ $key }}">{{ $status }}</option>
@@ -503,13 +508,11 @@
                                                 <div class="col-md-6">
                                                     <label v-if="key == 0">&nbsp;</label>
                                                     <div class="form-group">
-                                                        <a class="btn-floating waves-effect waves-light red"
+                                                        <a class="btn-floating"
                                                            v-on:click="addRow(key, 'education')"
-                                                           v-if="application.education.length < {{ count(HrCriteria::education()->lists()) }}"><i
-                                                                    class="material-icons">add</i></a>
-                                                        <a class="btn-floating waves-effect waves-light red"
-                                                           v-on:click="removeRow(key, 'education')" v-if="key > 0"><i
-                                                                    class="material-icons">remove</i></a>
+                                                           v-if="application.education.length < {{ count(HrCriteria::education()->lists()) }}"><i class="fa fa-plus"></i></a>
+                                                        <a class="btn-floating"
+                                                           v-on:click="removeRow(key, 'education')" v-if="key > 0"><i class="fa fa-minus"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -519,6 +522,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Kurs ve Eğitimler -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -528,7 +532,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group" :class="{ 'has-error' : formErrors['course.'+key+'.name'] }">
                                                 <label v-if="key == 0">{{ trans('hr::applications.form.courses.name') }}</label>
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.courses.name') }}"
                                                        v-model="cours.name">
                                             </div>
@@ -536,7 +540,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group" :class="{ 'has-error' : formErrors['course.'+key+'.company'] }">
                                                 <label v-if="key == 0">{{ trans('hr::applications.form.courses.company') }}</label>
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.courses.company') }}"
                                                        v-model="cours.company">
                                             </div>
@@ -550,12 +554,10 @@
                                         <div class="col-md-2">
                                             <label v-if="key == 0">&nbsp;</label>
                                             <div class="form-group">
-                                                <a class="btn-floating waves-effect waves-light red"
-                                                   v-on:click="addRow(key, 'course')" v-if="application.course.length < 6">
-                                                    <i class="material-icons">add</i></a>
-                                                <a class="btn-floating waves-effect waves-light red"
-                                                   v-on:click="removeRow(key, 'course')" v-if="key > 0">
-                                                    <i class="material-icons">remove</i></a>
+                                                <a class="btn-floating"
+                                                   v-on:click="addRow(key, 'course')" v-if="application.course.length < 6"><i class="fa fa-plus"></i></a>
+                                                <a class="btn-floating"
+                                                   v-on:click="removeRow(key, 'course')" v-if="key > 0"><i class="fa fa-minus"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -563,6 +565,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- İş Tecrübesi -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -588,7 +591,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.company'] }">
                                                                 <label v-if="key == 0">{{ trans('hr::applications.form.experiences.company') }}</label>
-                                                                <input class="browser-default form-control" type="text"
+                                                                <input class="form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.company') }}"
                                                                        v-model="exper.company">
                                                             </div>
@@ -596,7 +599,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.department'] }">
                                                                 <label v-if="key == 0">{{ trans('hr::applications.form.experiences.department') }}</label>
-                                                                <input class="browser-default form-control" type="text"
+                                                                <input class="form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.department') }}"
                                                                        v-model="exper.department">
                                                             </div>
@@ -604,7 +607,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.position'] }">
                                                                 <label v-if="key == 0">{{ trans('hr::applications.form.experiences.position') }}</label>
-                                                                <input class="browser-default form-control" type="text"
+                                                                <input class="form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.position') }}"
                                                                        v-model="exper.position">
                                                             </div>
@@ -616,7 +619,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.reason'] }">
                                                         <label v-if="key < 0">{{ trans('hr::applications.form.experiences.reason') }}</label>
-                                                        <input class="browser-default form-control" type="text"
+                                                        <input class="form-control" type="text"
                                                                placeholder="{{ trans('hr::applications.form.experiences.reason') }}"
                                                                v-model="exper.reason">
                                                     </div>
@@ -626,21 +629,21 @@
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.full_name'] }">
-                                                                <input class="browser-default form-control" type="text"
+                                                                <input class="form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.full_name') }}"
                                                                        v-model="exper.full_name">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.title'] }">
-                                                                <input class="browser-default form-control" type="text"
+                                                                <input class="form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.title') }}"
                                                                        v-model="exper.title">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group" :class="{ 'has-error' : formErrors['experience.'+key+'.phone'] }">
-                                                                <input class="browser-default form-control" type="text"
+                                                                <input class="form-control" type="text"
                                                                        placeholder="{{ trans('hr::applications.form.experiences.phone') }}"
                                                                        v-model="exper.phone">
                                                             </div>
@@ -652,12 +655,12 @@
                                         <div class="col-md-2">
                                             <label v-if="key == 0">&nbsp;</label>
                                             <div class="form-group">
-                                                <a class="btn-floating waves-effect waves-light red"
+                                                <a class="btn-floating"
                                                    v-on:click="addRow(key, 'experience')" v-if="application.experience.length < 5">
-                                                    <i class="material-icons">add</i></a>
-                                                <a class="btn-floating waves-effect waves-light red"
+                                                    <i class="fa fa-plus"></i></a>
+                                                <a class="btn-floating"
                                                    v-on:click="removeRow(key, 'experience')" v-if="key > 0">
-                                                    <i class="material-icons">remove</i></a>
+                                                    <i class="fa fa-minus"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -665,6 +668,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Referanslar -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -674,7 +678,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group" :class="{ 'has-error' : formErrors['reference.'+key+'.full_name'] }">
                                                 <label v-if="key == 0">{{ trans('hr::applications.form.references.full_name') }}</label>
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.references.full_name') }}"
                                                        v-model="ref.full_name">
                                             </div>
@@ -682,7 +686,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group" :class="{ 'has-error' : formErrors['reference.'+key+'.work_place'] }">
                                                 <label v-if="key == 0">{{ trans('hr::applications.form.references.work_place') }}</label>
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.references.work_place') }}"
                                                        v-model="ref.work_place">
                                             </div>
@@ -692,7 +696,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group" :class="{ 'has-error' : formErrors['ref.position'] }">
                                                         <label v-if="key == 0">{{ trans('hr::applications.form.references.position') }}</label>
-                                                        <input class="browser-default form-control" type="text"
+                                                        <input class="form-control" type="text"
                                                                placeholder="{{ trans('hr::applications.form.references.position') }}"
                                                                v-model="ref.position">
                                                     </div>
@@ -700,7 +704,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group" :class="{ 'has-error' : formErrors['ref.proximity'] }">
                                                         <label v-if="key == 0">{{ trans('hr::applications.form.references.proximity') }}</label>
-                                                        <input class="browser-default form-control" type="text"
+                                                        <input class="form-control" type="text"
                                                                placeholder="{{ trans('hr::applications.form.references.proximity') }}"
                                                                v-model="ref.proximity">
                                                     </div>
@@ -708,7 +712,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group" :class="{ 'has-error' : formErrors['reference.'+key+'.phone'] }">
                                                         <label v-if="key == 0">{{ trans('hr::applications.form.references.phone') }}</label>
-                                                        <input class="browser-default form-control" type="text"
+                                                        <input class="form-control" type="text"
                                                                placeholder="{{ trans('hr::applications.form.references.phone') }}"
                                                                v-model="ref.phone">
                                                     </div>
@@ -718,12 +722,10 @@
                                         <div class="col-md-2">
                                             <label v-if="key == 0">&nbsp;</label>
                                             <div class="form-group">
-                                                <a class="btn-floating waves-effect waves-light red"
-                                                   v-on:click="addRow(key, 'reference')" v-if="application.reference.length < 5">
-                                                    <i class="material-icons">add</i></a>
-                                                <a class="btn-floating waves-effect waves-light red"
-                                                   v-on:click="removeRow(key, 'reference')" v-if="key > 0">
-                                                    <i class="material-icons">remove</i></a>
+                                                <a class="btn-floating"
+                                                   v-on:click="addRow(key, 'reference')" v-if="application.reference.length < 5"><i class="fa fa-plus"></i></a>
+                                                <a class="btn-floating"
+                                                   v-on:click="removeRow(key, 'reference')" v-if="key > 0"><i class="fa fa-minus"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -732,6 +734,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Başvuru Bilgileri -->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -740,7 +743,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['request.price'] }">
                                             <label class="browser-default">{{ trans('hr::applications.form.requests.price') }}</label>
-                                            <input class="browser-default form-control" id="first_name" type="text"
+                                            <input class="form-control" id="first_name" type="text"
                                                    placeholder="{{ trans('hr::applications.form.requests.price') }}"
                                                    v-model="application.request.price">
                                         </div>
@@ -748,7 +751,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['request.work_time'] }">
                                             <label>{{ trans('hr::applications.form.requests.work_time') }}</label>
-                                            <select class="browser-default form-control" class="select"
+                                            <select class="form-control" class="select"
                                                     v-model="application.request.work_time">
                                                 @foreach(HrInformation::worktime()->lists() as $key => $status)
                                                     <option value="{{ $key }}">{{ $status }}</option>
@@ -759,7 +762,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['request.department'] }">
                                             <label>{{ trans('hr::positions.form.position.department') }}</label>
-                                            <select class="browser-default form-control" class="select"
+                                            <select class="form-control" class="select"
                                                     v-model="application.request.department">
                                                 @foreach(HrInformation::department()->lists() as $key => $status)
                                                     <option value="{{ $key }}">{{ $status }}</option>
@@ -770,7 +773,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['request.travel'] }">
                                             <label>{{ trans('hr::applications.form.requests.travel') }}</label>
-                                            <select class="browser-default form-control" class="select"
+                                            <select class="form-control" class="select"
                                                     v-model="application.request.travel">
                                                 <option value="0">{{ trans('hr::applications.select.select') }}</option>
                                                 <option value="1">{{ trans('hr::applications.select.no') }}</option>
@@ -781,7 +784,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group" :class="{ 'has-error' : formErrors['request.job_rotation'] }">
                                             <label>{{ trans('hr::applications.form.requests.job_rotation') }}</label>
-                                            <select class="browser-default form-control" class="select"
+                                            <select class="form-control" class="select"
                                                     v-model="application.request.job_rotation">
                                                 <option value="0">{{ trans('hr::applications.select.select') }}</option>
                                                 <option value="1">{{ trans('hr::applications.select.no') }}</option>
@@ -793,6 +796,7 @@
                             </fieldset>
                         </div>
                     </div>
+                    <!-- Acil Durumlarda Haber Vereceğiniz Kişiler-->
                     <div class="row">
                         <div class="col-md-12">
                             <fieldset>
@@ -802,7 +806,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group" :class="{ 'has-error' : formErrors['emergency.'+key+'.full_name'] }">
                                                 <label v-if="key == 0">{{ trans('hr::applications.form.emergencies.full_name') }}</label>
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.emergencies.full_name') }}"
                                                        v-model="emr.full_name">
                                             </div>
@@ -810,7 +814,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group" :class="{ 'has-error' : formErrors['emergency.'+key+'.phone'] }">
                                                 <label v-if="key == 0">{{ trans('hr::applications.form.emergencies.phone') }}</label>
-                                                <input class="browser-default form-control" type="text"
+                                                <input class="form-control" type="text"
                                                        placeholder="{{ trans('hr::applications.form.emergencies.phone') }}"
                                                        v-model="emr.phone">
                                             </div>
@@ -818,12 +822,12 @@
                                         <div class="col-md-2">
                                             <label v-if="key == 0">&nbsp;</label>
                                             <div class="form-group">
-                                                <a class="btn-floating waves-effect waves-light red"
+                                                <a class="btn-floating"
                                                    v-on:click="addRow(key, 'emergency')" v-if="application.emergency.length < 5">
-                                                    <i class="material-icons">add</i></a>
-                                                <a class="btn-floating waves-effect waves-light red"
+                                                    <i class="fa fa-plus"></i></a>
+                                                <a class="btn-floating"
                                                    v-on:click="removeRow(key, 'emergency')" v-if="key > 0">
-                                                    <i class="material-icons">remove</i></a>
+                                                    <i class="fa fa-minus"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -832,6 +836,7 @@
                         </div>
                     </div>
                     <hr/>
+                    <!-- Save Button -->
                     <div class="row">
                         <div class="col-md-12 m-top-bot-20">
                             <p class="font-12">{{ trans('hr::applications.messages.notice') }}</p>
@@ -840,14 +845,14 @@
                     @if(!setting('hr::user-login'))
                         <div class="row">
                             <div class="col-md-12 m-top-bot-20">
-                                {!! Captcha::image('captcha_hr', ['v-model'=>'application.captcha_hr']) !!}
+                                {!! Captcha::image('captcha_hr') !!}
                             </div>
                         </div>
                     @endif
                     <hr/>
                     <div class="row">
                         <div class="col-md-12 m-top-20">
-                            {!! Form::submit(trans('hr::applications.buttons.create'), ['class'=>'btn btn-default btn btn-primary', 'v-bind:value'=>'button']) !!}
+                            {!! Form::submit(trans('hr::applications.buttons.create'), ['class'=>'btn btn-default btn btn-primary btn-bordered', 'v-bind:value'=>'button']) !!}
                         </div>
                     </div>
                 </div>
@@ -857,7 +862,7 @@
     </section>
 @endsection
 
-@push('js_inline')
+@push('scripts')
 <script src="{!! Module::asset('hr:js/underscore-min.js') !!}"></script>
 <script src="{!! Module::asset('hr:js/loadingoverlay.min.js') !!}"></script>
 <script src="{!! Module::asset('hr:js/loadingoverlay_progress.min.js') !!}"></script>
@@ -874,16 +879,20 @@
 @endif
 <script src="{!! Module::asset('hr:js/axios.min.js') !!}"></script>
 <script src="{!! Module::asset('hr:js/vue-bootstrap-datetimepicker.min.js') !!}"></script>
+@endpush
 
+@push('js_inline')
 <script>
-    @if($currentUser)
-            axios.defaults.headers.common['Authorization'] = 'Bearer {{ csrf_token() }}';
-    @endif
-            @if(App::environment()=='local')
+    @if(App::environment()=='local')
             Vue.config.devtools = true;
     @endif
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = 'Bearer {{ csrf_token() }}';
-    axios.defaults.headers.common['Cache-Control'] = 'no-cache';
+    Vue.prototype.$http = axios;
+    window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    window.axios.defaults.headers.common['X-CSRF-TOKEN']     = '{{ csrf_token() }}';
+    @if($currentUser)
+        window.axios.defaults.headers.common['Authorization']    = 'Bearer {{ $currentUser->getFirstApiKey() }}';
+    @endif
+    window.axios.defaults.headers.common['Cache-Control'] = 'no-cache';
     Vue.component('date-picker', VueBootstrapDatetimePicker.default);
     var app = new Vue({
         el: '#app',
@@ -951,7 +960,7 @@
                     department: 0
                 },
                 user_id: '{{ $currentUser ? $currentUser->id : '' }}',
-                position_id: null
+                position_id: '{{ !isset($position) ? '' : $position->id }}'
             },
             newApplication: {},
             formErrors: {
@@ -966,7 +975,7 @@
             this.authorization_key = '{{ csrf_token() }}';
         },
         mounted: function() {
-            if(this.application.user_id) {
+            if(this.application.id) {
                 this.getUser(this.application.user_id);
             }
         },
@@ -1022,19 +1031,18 @@
             submitForm: function (e) {
                 e.preventDefault();
                 @if($currentUser)
-                    if(this.application.id != '') {
-                        this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
-                    } else {
-                        this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
-                        this.getUser(this.user_id);
-                    }
+                if(this.application.id != '') {
+                    this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
+                } else {
+                    this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
+                    this.getUser(this.user_id);
+                }
                 @else
-                    if(this.application.id != '') {
-                        this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
-                    } else {
-                        this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
-                    }
-
+                if(this.application.id != '') {
+                    this.applicationUpdate('{{ route('api.hr.application.update') }}', this.application);
+                } else {
+                    this.applicationUpdate('{{ route('api.hr.application.create') }}', this.application);
+                }
                 @endif
 
                 if(this.hasCaptcha) {
@@ -1068,35 +1076,31 @@
             },
             applicationUpdate: function(route, data) {
                 this.ajaxStart(true);
-                axios.post(route, data)
-                        .then(response => {
+                axios.post(route, data).then(response => {
                     this.ajaxStart(false);
-                this.formErrors = {};
-                this.pnotify(response.data.message, "success");
-            }).catch(error => {
+                    this.formErrors = {};
+                    this.pnotify(response.data.message, "success");
+                }).catch(error => {
                     this.ajaxStart(false);
-					this.pnotify(error.response.data.message);
-					this.formErrors = error.response.data.message;
-            });
+                    this.pnotify(error.response.data.message);
+                    this.formErrors = error.response.data.message;
+                });
             },
             getUser: function(id) {
                 this.ajaxStart(true);
                 axios.get('{{ route('api.hr.application.user') }}')
                         .then(({ data })=> {
-                    this.application = JSON.parse(data.message);
-                @if(isset($position))
-                        this.application.position_id = '{{ !isset($position) ? '' : $position->id }}';
-                @endif
-                if(typeof data.notification != "undefined") {
-                    this.pnotify(data.notification, 'notice');
-                }
-                this.buttonStatus();
-                this.ajaxStart(false);
-            }).catch(error => {
+                            this.application = JSON.parse(data.message);
+                            if(typeof data.notification != "undefined") {
+                                this.pnotify(data.notification, 'notice');
+                            }
+                            this.buttonStatus();
+                            this.ajaxStart(false);
+                        }).catch(error => {
                     this.pnotify(error.response.data.message, 'notice');
-                // this.formErrors = error.response.data.message;
-                this.ajaxStart(false);
-            });
+                    // this.formErrors = error.response.data.message;
+                    this.ajaxStart(false);
+                });
             }
         }
     });

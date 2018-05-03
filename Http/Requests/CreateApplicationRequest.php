@@ -52,6 +52,7 @@ class CreateApplicationRequest extends BaseFormRequest
             'experience.*.full_name' => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
             'experience.*.title'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
             'experience.*.phone'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+            'attachment'             => 'mimes:pdf,doc,docx,xls,xlsx'
         ];
 
         if(!setting('hr::user-login')) {

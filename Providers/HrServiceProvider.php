@@ -40,7 +40,9 @@ class HrServiceProvider extends ServiceProvider
             BuildingSidebar::class,
             $this->getSidebarClassForModule('Hr', RegisterHrSidebar::class)
         );
+
         $this->registerFacades();
+
         if($this->app->runningInConsole()===false && class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
             $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
         }
