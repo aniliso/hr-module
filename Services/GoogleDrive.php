@@ -1,6 +1,8 @@
 <?php namespace Modules\Hr\Services;
 
+use Modules\Hr\Entities\Application;
 use Storage;
+use Barryvdh\DomPDF\PDF;
 
 class GoogleDrive
 {
@@ -12,6 +14,7 @@ class GoogleDrive
     public function __construct()
     {
         $this->storage = Storage::drive('google');
+        $this->pdf = app(PDF::class);
     }
 
     public function folderList($dir='/')
@@ -24,6 +27,30 @@ class GoogleDrive
     {
         $files = $this->folderList();
         return $files->where('filename', '=', pathinfo($this->folder.'/'.$this->file, PATHINFO_FILENAME))->first();
+    }
+
+    public function driveUpload(Application $application)
+    {
+        if(env('GOOGLE_DRIVE_CLIENT_ID') || setting('hr::clientId')) {
+
+            if(!\File::isDirectory($this->getFolder())) {
+                \File::makeDirectory($this->getFolder());
+            }
+
+            if(!\File::isDirectory($this->getFolder())) {
+                \File::makeDirectory($this->getFolder());
+            }
+
+            $file = "{$application->id}_{$application->first_name}_{$application->last_name}.pdf";
+
+            $this->setFile($file);
+
+            $pdf = $this->pdf->loadView('hr::pdf.application', ['application'=>$application]);
+            $pdf->save($this->getFolder().'/'.$file);
+
+            $this->upload(file_get_contents($this->getFolder().'/'.$file));
+        }
+        return false;
     }
 
     public function upload($contents)

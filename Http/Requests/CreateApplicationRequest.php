@@ -11,51 +11,54 @@ class CreateApplicationRequest extends BaseFormRequest
 
     public function rules()
     {
-        $rules = [
-            'first_name'             => 'required',
-            'last_name'              => 'required',
-            'identity.no'            => 'required',
-            'identity.birthdate'     => 'required',
-            'identity.birthplace'    => 'required',
-            'contact.address1'       => 'required',
-            'contact.county'         => 'required',
-            'contact.phone'          => 'required',
-            'contact.gsm'            => 'required',
-            'contact.email'          => 'required|email',
-            'language.*.lang'        => 'required_with:language.*.write,language.*.read,language.*.speak',
-            'language.*.write'       => 'required_with:language.*.lang',
-            'language.*.read'        => 'required_with:language.*.lang',
-            'language.*.speak'       => 'required_with:language.*.lang',
-            'skills.*.program'       => 'required_with:skills.*.level',
-            'skills.*.other'         => 'required_if:skills.*.program,7',
-            'skills.*.level'         => 'required_with:skills.*.program',
-            'driving.type'           => 'required_with:driving.no,driving.issue_at',
-            'driving.no'             => 'required_with:driving.type',
-            'driving.issue_at'       => 'required_with:driving.type',
-            'education.*.name'       => 'required_with:education.*.start_at,education.*.status',
-            'education.*.status'     => 'required_with:education.*.name,education.*.start_at',
-            'education.*.start_at'   => 'required_with:education.*.name,education.*.status',
-            'emergency.*.full_name'  => 'required_with:emergency.*.phone',
-            'emergency.*.phone'      => 'required_with:emergency.*.full_name',
-            'reference.*.full_name'  => 'required_with:reference.*.phone,reference.*.work_place',
-            'reference.*.phone'      => 'required_with:reference.*.full_name,reference.*.work_place',
-            'reference.*.work_place' => 'required_with:reference.*.full_name,reference.*.phone',
-            'course.*.name'          => 'required_with:course.*.company,course.*.issue_at',
-            'course.*.company'       => 'required_with:course.*.name,course.*.issue_at',
-            'course.*.issue_at'      => 'required_with:course.*.name,course.*.company',
-            'experience.*.start_at'  => 'required_with:experience.*.end_at,experience.*.start_at,experience.*.company',
-            'experience.*.end_at'    => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
-            'experience.*.company'   => 'required_with:experience.*.start_at,experience.*.end_at',
-            'experience.*.department'=> 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
-            'experience.*.position'  => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
-            'experience.*.reason'    => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
-            'experience.*.full_name' => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
-            'experience.*.title'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
-            'experience.*.phone'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
-            'attachment'             => 'mimes:pdf,doc,docx,xls,xlsx'
-        ];
+        if(config('asgard.hr.config.rules') && is_array(config('asgard.hr.config.rules'))) {
+            $rules = config('asgard.hr.config.rules');
+        } else {
+            $rules = [
+                'first_name'              => 'required',
+                'last_name'               => 'required',
+                'identity.no'             => 'required',
+                'identity.birthdate'      => 'required',
+                'identity.birthplace'     => 'required',
+                'contact.address1'        => 'required',
+                'contact.county'          => 'required',
+                'contact.phone'           => 'required',
+                'contact.gsm'             => 'required',
+                'contact.email'           => 'required|email',
+                'language.*.lang'         => 'required_with:language.*.write,language.*.read,language.*.speak',
+                'language.*.write'        => 'required_with:language.*.lang',
+                'language.*.read'         => 'required_with:language.*.lang',
+                'language.*.speak'        => 'required_with:language.*.lang',
+                'skills.*.program'        => 'required_with:skills.*.level',
+                'skills.*.other'          => 'required_if:skills.*.program,7',
+                'skills.*.level'          => 'required_with:skills.*.program',
+                'driving.type'            => 'required_with:driving.no,driving.issue_at',
+                'driving.no'              => 'required_with:driving.type',
+                'driving.issue_at'        => 'required_with:driving.type',
+                'education.*.name'        => 'required_with:education.*.start_at,education.*.status',
+                'education.*.status'      => 'required_with:education.*.name,education.*.start_at',
+                'education.*.start_at'    => 'required_with:education.*.name,education.*.status',
+                'emergency.*.full_name'   => 'required_with:emergency.*.phone',
+                'emergency.*.phone'       => 'required_with:emergency.*.full_name',
+                'reference.*.full_name'   => 'required_with:reference.*.phone,reference.*.work_place',
+                'reference.*.phone'       => 'required_with:reference.*.full_name,reference.*.work_place',
+                'reference.*.work_place'  => 'required_with:reference.*.full_name,reference.*.phone',
+                'course.*.name'           => 'required_with:course.*.company,course.*.issue_at',
+                'course.*.company'        => 'required_with:course.*.name,course.*.issue_at',
+                'course.*.issue_at'       => 'required_with:course.*.name,course.*.company',
+                'experience.*.start_at'   => 'required_with:experience.*.end_at,experience.*.start_at,experience.*.company',
+                'experience.*.end_at'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+                'experience.*.company'    => 'required_with:experience.*.start_at,experience.*.end_at',
+                'experience.*.department' => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+                'experience.*.position'   => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+                'experience.*.reason'     => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+                'experience.*.full_name'  => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+                'experience.*.title'      => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company',
+                'experience.*.phone'      => 'required_with:experience.*.start_at,experience.*.end_at,experience.*.company'
+            ];
+        }
 
-        if(!setting('hr::user-login')) {
+        if(setting('hr::use-captcha')) {
             $rules = array_merge($rules, array('captcha_hr' => 'required|captcha'));
         }
 

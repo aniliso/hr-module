@@ -5,6 +5,7 @@ namespace Modules\Hr\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Hr\Presenters\ApplicationPresenter;
+use Modules\Media\Entities\File;
 use Modules\User\Entities\Sentinel\User;
 
 class Application extends Model
@@ -12,7 +13,7 @@ class Application extends Model
     use PresentableTrait;
 
     protected $table = 'hr__applications';
-    protected $fillable = ['user_id', 'position_id', 'gender', 'first_name', 'last_name', 'nationality', 'marital', 'health', 'criminal', 'request', 'identity', 'driving', 'contact', 'skills', 'education', 'language', 'reference', 'experience', 'course', 'emergency', 'size'];
+    protected $fillable = ['user_id', 'position_id', 'gender', 'first_name', 'last_name', 'nationality', 'marital', 'health', 'criminal', 'request', 'identity', 'driving', 'contact', 'skills', 'education', 'language', 'reference', 'experience', 'course', 'emergency', 'size', 'attachment'];
     public $timestamps = true;
 
     protected $casts = [
@@ -30,6 +31,11 @@ class Application extends Model
         'health'     => 'object',
         'criminal'   => 'object'
     ];
+
+    public function attachment()
+    {
+        return $this->hasOne(File::class, 'id', 'attachment');
+    }
 
     protected $presenter = ApplicationPresenter::class;
 

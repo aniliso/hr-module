@@ -325,6 +325,10 @@
                                 @endif
                             </table>
                         </fieldset>
+
+                        @if(isset($application->attachment()->first()->path))
+                            <a target="_blank" href="{{ url($application->attachment()->first()->path) }}" class="btn btn-default btn-flat"><i class="fa fa-download"></i> CV indir</a>
+                        @endif
                     </div>
                     <div class="box-footer">
                         <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.hr.application.index')}}"><i

@@ -34,17 +34,17 @@ return [
         'request'    => 'Application Information'
     ],
     'form'             => [
-        'gender'        => 'Gender',
-        'first_name'    => 'First Name',
-        'last_name'     => 'Last Name',
-        'language'      => 'Language',
-        'nationality'   => 'Nationality',
-        'marital'       => 'Marital',
-        'health'        => 'Health',
-        'health_desc'   => 'Did you have a serious disability or discomfort?',
-        'criminal'      => 'Criminal Information',
-        'criminal_desc' => 'Do you have a criminal record?',
-        'identity'      => [
+        'gender'               => 'Gender',
+        'first_name'           => 'First Name',
+        'last_name'            => 'Last Name',
+        'language'             => 'Language',
+        'nationality'          => 'Nationality',
+        'marital'              => 'Marital',
+        'health'               => 'Health',
+        'health_desc'          => 'Did you have a serious disability or discomfort?',
+        'criminal'             => 'Criminal Information',
+        'criminal_desc'        => 'Do you have a criminal record?',
+        'identity'             => [
             'birthdate'  => 'Birth Date',
             'birthplace' => 'Birth Place',
             'bloodgroup' => 'Blood Group',
@@ -52,17 +52,17 @@ return [
             'sgk'        => 'Social Security No',
             'tax'        => 'Tax No'
         ],
-        'languages'     => [
+        'languages'            => [
             'read'  => 'Read',
             'write' => 'Write',
             'speak' => 'Speak'
         ],
-        'driver'        => [
+        'driver'               => [
             'type'     => 'Driver Type',
             'no'       => 'Driver No',
             'issue_at' => 'Issue Date'
         ],
-        'contacts'      => [
+        'contacts'             => [
             'address1' => 'Address',
             'address2' => 'Address',
             'county'   => 'County',
@@ -72,7 +72,7 @@ return [
             'postcode' => 'Postcode',
             'email'    => 'Email'
         ],
-        'educate'       => [
+        'educate'              => [
             'start_at' => 'Start At',
             'end_at'   => 'End At',
             'name'     => 'School Name',
@@ -85,12 +85,12 @@ return [
                 3 => 'Abandonment'
             ]
         ],
-        'courses'       => [
+        'courses'              => [
             'name'    => 'Course Name',
             'company' => 'Educator / Organization',
             'date'    => 'Course Date'
         ],
-        'experiences'   => [
+        'experiences'          => [
             'start_at'   => 'Start At',
             'end_at'     => 'End At',
             'company'    => 'Company',
@@ -102,7 +102,7 @@ return [
             'title'      => 'Title',
             'title_desc' => 'Your top management at your workplace;'
         ],
-        'references'    => [
+        'references'           => [
             'full_name'   => 'Name Surname',
             'work_place'  => 'Place of Work',
             'position'    => 'Position',
@@ -110,18 +110,21 @@ return [
             'phone'       => 'Phone',
             'description' => 'I agree with the previous employers, educational institutions / institutions, public institutions and references given to confirm the information provided.'
         ],
-        'emergencies'   => [
+        'emergencies'          => [
             'full_name' => 'Name Surname',
             'phone'     => 'Phone'
         ],
-        'requests'      => [
+        'requests'             => [
             'travel'       => 'Can you go on a trip?',
             'department'   => 'Applied Position',
             'price'        => 'Requested Fee',
             'work_time'    => 'Position Type',
             'job_rotation' => 'Can you work shifts?'
         ],
-        'recaptcha'     => 'Security Code'
+        'recaptcha'            => 'Security Code',
+        'attachment'           => 'Attach Document',
+        'attachment delete'    => 'Delete Document',
+        'attachment not found' => 'Document not found'
     ],
     'select'           => [
         'select'    => 'Select',
@@ -206,7 +209,7 @@ return [
     'validation'       => [
     ],
     'buttons'          => [
-        'create' => 'Create',
+        'create' => 'Apply Now',
         'update' => 'Update'
     ]
 ];

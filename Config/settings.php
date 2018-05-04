@@ -11,6 +11,11 @@ return [
         'view'         => 'checkbox',
         'translatable' => false,
     ],
+    'use-captcha' => [
+        'description'  => 'hr::settings.use-captcha',
+        'view'         => 'checkbox',
+        'translatable' => false,
+    ],
     'clientId' => [
         'description'  => 'hr::settings.clientId',
         'view'         => 'text',

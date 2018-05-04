@@ -34,17 +34,17 @@ return [
         'request'    => 'Başvuru Bilgileri'
     ],
     'form'             => [
-        'gender'        => 'Cinsiyet',
-        'first_name'    => 'Adınız',
-        'last_name'     => 'Soyadınız',
-        'language'      => 'Yabancı Dil',
-        'nationality'   => 'Uyruğu',
-        'marital'       => 'Medeni Hal',
-        'health'        => 'Sağlık Durumu',
-        'health_desc'   => 'Ciddi bir sakatlık ya da rahatsızlık geçirdiniz mi ?',
-        'criminal'      => 'Sabıka Bilgisi',
-        'criminal_desc' => 'Sabıkanız Var mı ?',
-        'identity'      => [
+        'gender'               => 'Cinsiyet',
+        'first_name'           => 'Adınız',
+        'last_name'            => 'Soyadınız',
+        'language'             => 'Yabancı Dil',
+        'nationality'          => 'Uyruğu',
+        'marital'              => 'Medeni Hal',
+        'health'               => 'Sağlık Durumu',
+        'health_desc'          => 'Ciddi bir sakatlık ya da rahatsızlık geçirdiniz mi ?',
+        'criminal'             => 'Sabıka Bilgisi',
+        'criminal_desc'        => 'Sabıkanız Var mı ?',
+        'identity'             => [
             'birthdate'  => 'Doğum Tarihi',
             'birthplace' => 'Doğum Yeri',
             'bloodgroup' => 'Kan Grubu',
@@ -52,17 +52,17 @@ return [
             'sgk'        => 'SGK',
             'tax'        => 'Vergi No'
         ],
-        'languages'     => [
+        'languages'            => [
             'read'  => 'Okuma',
             'write' => 'Yazma',
             'speak' => 'Konuşma'
         ],
-        'driver'        => [
+        'driver'               => [
             'type'     => 'Ehliyet Sınıfı',
             'no'       => 'Ehliyet No',
             'issue_at' => 'Veriliş Tarihi'
         ],
-        'contacts'      => [
+        'contacts'             => [
             'address1' => 'Adres',
             'address2' => 'Adres',
             'county'   => 'İlçe',
@@ -72,7 +72,7 @@ return [
             'postcode' => 'Posta Kodu',
             'email'    => 'E-Posta'
         ],
-        'educate'       => [
+        'educate'              => [
             'start_at' => 'Başlangıç Tarihi',
             'end_at'   => 'Bitiş Tarihi',
             'name'     => 'Okul Adı',
@@ -85,12 +85,12 @@ return [
                 3 => 'Terk'
             ]
         ],
-        'courses'       => [
+        'courses'              => [
             'name'    => 'Eğitimin Adı',
             'company' => 'Eğitimi Veren Kişi / Kuruluş',
             'date'    => 'Tarih'
         ],
-        'experiences'   => [
+        'experiences'          => [
             'start_at'   => 'Başlangıç Tarihi',
             'end_at'     => 'Bitiş Tarihi',
             'company'    => 'İşyeri',
@@ -102,7 +102,7 @@ return [
             'title'      => 'Ünvanı',
             'title_desc' => 'İş Yerinizdeki Bir Üst Yöneticinizin;'
         ],
-        'references'    => [
+        'references'           => [
             'full_name'   => 'Adı Soyadı',
             'work_place'  => 'Çalıştığı Yer',
             'position'    => 'Görevi',
@@ -110,18 +110,21 @@ return [
             'phone'       => 'Telefon',
             'description' => 'Verilen bilgilerin teyit edilmesi amacıyla eski işverenler, eğitim kurum/kuruluşları, kamu kurumları ve verilen referanslar ile temasa geçilmesini kabul ediyorum.'
         ],
-        'emergencies'   => [
+        'emergencies'          => [
             'full_name' => 'Adı Soyadı',
             'phone'     => 'Telefon'
         ],
-        'requests'      => [
+        'requests'             => [
             'travel'       => 'Seyehate çıkabilir misiniz?',
             'department'   => 'Başvurulan Pozisyon',
             'price'        => 'Talep Edilen Ücret',
             'work_time'    => 'Görev Şekli',
             'job_rotation' => 'Vardiyalı çalışabilir misiniz?'
         ],
-        'recaptcha'     => 'Doğrulama Kodu'
+        'recaptcha'            => 'Doğrulama Kodu',
+        'attachment'           => 'CV Ekle',
+        'attachment delete'    => 'CV Sil',
+        'attachment not found' => 'CV Eklenmedi'
     ],
     'select'           => [
         'select'    => 'Seçiniz',

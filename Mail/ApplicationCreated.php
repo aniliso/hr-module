@@ -33,6 +33,10 @@ class ApplicationCreated extends Mailable
      */
     public function build()
     {
+        if(isset($this->application->attachment()->first()->path)) {
+            $this->attach(public_path($this->application->attachment()->first()->path));
+        }
+
         return $this->view('hr::emails.application')
                     ->subject('İş Başvuru Formu : '.$this->application->id.' No.lu Başvuru')
                     ->replyTo($this->application->present()->contact('email'), $this->application->present()->fullname)
