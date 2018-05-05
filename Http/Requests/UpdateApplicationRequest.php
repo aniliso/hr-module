@@ -109,6 +109,7 @@ class UpdateApplicationRequest extends BaseFormRequest
             'experience.*.full_name' => trans('hr::applications.form.experiences.start_at'),
             'experience.*.title'     => trans('hr::applications.form.experiences.start_at'),
             'experience.*.phone'     => trans('hr::applications.form.experiences.start_at'),
+            'attachment'             => trans('hr::applications.form.attachment')
         ];
     }
 

@@ -9,6 +9,8 @@ use Modules\Hr\Http\Requests\CreateApplicationRequest;
 use Modules\Hr\Http\Requests\UpdateApplicationRequest;
 use Modules\Hr\Repositories\ApplicationRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
+use Modules\Media\Image\Imagy;
+use Modules\Media\Services\FileService;
 
 class ApplicationController extends AdminBaseController
 {
@@ -16,12 +18,22 @@ class ApplicationController extends AdminBaseController
      * @var ApplicationRepository
      */
     private $application;
+    /**
+     * @var FileService
+     */
+    private $fileService;
+    /**
+     * @var Imagy
+     */
+    private $imagy;
 
-    public function __construct(ApplicationRepository $application)
+    public function __construct(ApplicationRepository $application, FileService $fileService, Imagy $imagy)
     {
         parent::__construct();
 
         $this->application = $application;
+        $this->fileService = $fileService;
+        $this->imagy = $imagy;
     }
 
     /**
@@ -94,6 +106,11 @@ class ApplicationController extends AdminBaseController
      */
     public function destroy(Application $application)
     {
+        if($application->attachment()->exists()) {
+            $file = $application->attachment()->first();
+            $this->imagy->deleteAllFor($file);
+            $application->attachment()->delete();
+        }
         $this->application->destroy($application);
 
         return redirect()->route('admin.hr.application.index')

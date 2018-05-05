@@ -99,7 +99,8 @@ class CreateApplicationRequest extends BaseFormRequest
             'course.*.name'          => trans('hr::applications.form.courses.name'),
             'course.*.company'       => trans('hr::applications.form.courses.company'),
             'course.*.issue_at'      => trans('hr::applications.form.courses.date'),
-            'captcha_hr'             => trans('hr::applications.form.recaptcha')
+            'captcha_hr'             => trans('hr::applications.form.recaptcha'),
+            'attachment'             => trans('hr::applications.form.attachment')
         ];
     }
 

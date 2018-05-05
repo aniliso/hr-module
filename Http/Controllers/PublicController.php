@@ -86,8 +86,7 @@ class PublicController extends BasePublicController
 
         /* Start Meta's */
         $title = trans('hr::applications.title.application');
-        $this->setTitle($title)
-            ->setDescription('hr::applications.title.description');
+        $this->setTitle($title)->setDescription('hr::applications.title.description');
         /* End Meta's */
 
         /* Start Breadcrumbs */

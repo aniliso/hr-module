@@ -7,7 +7,8 @@ use Illuminate\Http\Response;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Hr\Http\Requests\CreateApplicationRequest;
 use Modules\Hr\Http\Requests\UpdateApplicationRequest;
-use Modules\Hr\Mail\ApplicationCreated;
+use Modules\Hr\Mail\ApplicationNotified;
+use Modules\Hr\Mail\GuestNotified;
 use Modules\Hr\Repositories\ApplicationRepository;
 use Modules\Hr\Services\GoogleDrive;
 use Modules\Media\Services\FileService;
@@ -73,7 +74,8 @@ class PublicController extends BasePublicController
             }
             if ($application = $this->application->create($requestData)) {
                 if ($email = setting('hr::email')) {
-                    \Mail::to($email)->queue((new ApplicationCreated($application))->delay(30));
+                    \Mail::to($email)->queue((new ApplicationNotified($application))->delay(30));
+                    \Mail::to($application->present()->contact('email'))->queue((new GuestNotified($application))->delay(30));
                 }
                 $this->googleDrive->driveUpload($application);
             }
