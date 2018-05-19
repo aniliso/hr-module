@@ -45,12 +45,12 @@
                             <td>{{ $application->present()->marital }}</td>
                             <td>
                                 <a href="{{ route('admin.hr.application.edit', [$application->id]) }}">
-                                    {{ $application->updated_at->formatLocalized('%d %B %Y %H:%M') }}
+                                    {{ $application->updated_at->format('d.m.Y H:i') }}
                                 </a>
                             </td>
                             <td>
                                 <a href="{{ route('admin.hr.application.edit', [$application->id]) }}">
-                                    {{ $application->created_at->formatLocalized('%d %B %Y %H:%M') }}
+                                    {{ $application->created_at->format('d.m.Y H:i') }}
                                 </a>
                             </td>
                             <td>

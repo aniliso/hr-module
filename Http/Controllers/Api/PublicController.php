@@ -77,7 +77,7 @@ class PublicController extends BasePublicController
                     \Mail::to($email)->queue((new ApplicationNotified($application))->delay(30));
                     \Mail::to($application->present()->contact('email'))->queue((new GuestNotified($application))->delay(30));
                 }
-                $this->googleDrive->driveUpload($application);
+                $this->googleDrive->setFolder(storage_path('app/modules/hr'))->driveUpload($application);
             }
             return response()->json([
                 'success' => true,
@@ -99,7 +99,7 @@ class PublicController extends BasePublicController
                 if (setting('hr::user-login') && $request->get('id') && \Auth::check()) {
                     if ($application = $this->application->find($request->get('id'))) {
                         $this->application->update($application, $request->all());
-                        $this->googleDrive->driveUpload($application);
+                        $this->googleDrive->setFolder(storage_path('app/modules/hr'))->driveUpload($application);
                     } else {
                         throw new \Exception(trans('hr::applications.messages.application not found'));
                     }
