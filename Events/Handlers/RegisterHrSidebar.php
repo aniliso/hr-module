@@ -20,7 +20,7 @@ class RegisterHrSidebar extends AbstractAdminSidebar
                 $item->icon('fa fa-male');
                 $item->weight(11);
                 $item->authorize(
-                     /* append */
+                    $this->auth->hasAccess('hr.positions.index')
                 );
                 $item->item(trans_choice('hr::positions.title.positions',[1]), function (Item $item) {
                     $item->icon('fa fa-briefcase');
