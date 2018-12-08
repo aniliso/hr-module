@@ -31,7 +31,7 @@ class GoogleDrive
 
     public function driveUpload(Application $application)
     {
-        if(env('GOOGLE_DRIVE_CLIENT_ID') || setting('hr::clientId')) {
+        if(config('filesystems.disks.google.clientId') || setting('hr::clientId')) {
 
             if(!\File::isDirectory($this->getFolder())) {
                 \File::makeDirectory($this->getFolder());
