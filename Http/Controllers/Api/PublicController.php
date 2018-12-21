@@ -7,12 +7,13 @@ use Illuminate\Http\Response;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Hr\Http\Requests\CreateApplicationRequest;
 use Modules\Hr\Http\Requests\UpdateApplicationRequest;
-use Modules\Hr\Mail\ApplicationNotified;
-use Modules\Hr\Mail\GuestNotified;
+use Modules\Hr\Jobs\SendApplicationNotified;
+use Modules\Hr\Jobs\SendGuestNotified;
 use Modules\Hr\Repositories\ApplicationRepository;
 use Modules\Hr\Services\GoogleDrive;
 use Modules\Media\Services\FileService;
 use Modules\User\Traits\CanFindUserWithBearerToken;
+use DB;
 
 class PublicController extends BasePublicController
 {
@@ -43,7 +44,8 @@ class PublicController extends BasePublicController
     public function view(Request $request)
     {
         try {
-            $user = \Sentinel::login($this->findUserWithBearerToken($request->header('Authorization')));
+            $token = $this->findUserWithBearerToken($request->header('Authorization'));
+            $user = \Sentinel::login($token);
             if ($user) {
                 if (!$application = $this->application->findByAttributes(['user_id' => $user->id])) {
                     throw new \Exception(trans('hr::applications.messages.application not found'));
@@ -51,7 +53,7 @@ class PublicController extends BasePublicController
                 return response()->json([
                     'success'      => true,
                     'notification' => trans('hr::applications.messages.load application'),
-                    'message'      => json_encode($application)
+                    'message'      => $application->toJson()
                 ]);
             } else {
                 throw new \Exception(trans('user::messages.user not found'));
@@ -67,15 +69,18 @@ class PublicController extends BasePublicController
     public function create(CreateApplicationRequest $request)
     {
         try {
+            DB::beginTransaction();
             $requestData = $request->all();
             if($request->hasFile('attachment')) {
                 $file = $this->fileService->store($request->file('attachment'));
                 $requestData['attachment'] = $file->id;
             }
             if ($application = $this->application->create($requestData)) {
+                DB::commit();
+                //Send emails
                 if ($email = setting('hr::email')) {
-                    \Mail::to($email)->queue((new ApplicationNotified($application))->delay(30));
-                    \Mail::to($application->present()->contact('email'))->queue((new GuestNotified($application))->delay(30));
+                    SendApplicationNotified::dispatch($application);
+                    SendGuestNotified::dispatch($application);
                 }
                 $this->googleDrive->setFolder(storage_path('app/modules/hr'))->driveUpload($application);
             }
@@ -84,6 +89,7 @@ class PublicController extends BasePublicController
                 'message' => trans('hr::applications.messages.success')
             ]);
         } catch (\Exception $exception) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => $exception->getMessage()
@@ -94,11 +100,15 @@ class PublicController extends BasePublicController
     public function update(UpdateApplicationRequest $request)
     {
         try {
-            $user = \Sentinel::login($this->findUserWithBearerToken($request->header('Authorization')));
+            //Get user
+            DB::beginTransaction();
+            $token = $this->findUserWithBearerToken($request->header('Authorization'));
+            $user = \Sentinel::login($token);
             if ($user) {
                 if (setting('hr::user-login') && $request->get('id') && \Auth::check()) {
                     if ($application = $this->application->find($request->get('id'))) {
                         $this->application->update($application, $request->all());
+                        DB::commit();
                         $this->googleDrive->setFolder(storage_path('app/modules/hr'))->driveUpload($application);
                     } else {
                         throw new \Exception(trans('hr::applications.messages.application not found'));
@@ -113,6 +123,7 @@ class PublicController extends BasePublicController
             ]);
 
         } catch (\Exception $exception) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => $exception->getMessage()

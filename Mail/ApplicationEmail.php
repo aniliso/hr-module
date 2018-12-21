@@ -5,10 +5,9 @@ namespace Modules\Hr\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Hr\Entities\Application;
 
-class ApplicationCreated extends Mailable
+class ApplicationEmail extends Mailable
 {
     use Queueable, SerializesModels;
     /**

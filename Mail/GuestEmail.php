@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Hr\Entities\Application;
 
-class GuestNotified extends Mailable
+class GuestEmail extends Mailable
 {
     use Queueable, SerializesModels;
     /**

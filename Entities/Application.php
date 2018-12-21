@@ -16,6 +16,10 @@ class Application extends Model
     protected $fillable = ['user_id', 'position_id', 'gender', 'first_name', 'last_name', 'nationality', 'marital', 'health', 'criminal', 'request', 'identity', 'driving', 'contact', 'skills', 'education', 'language', 'reference', 'experience', 'course', 'emergency', 'size', 'attachment'];
     public $timestamps = true;
 
+    public $with = ['attachment', 'user', 'position'];
+
+    protected $presenter = ApplicationPresenter::class;
+
     protected $casts = [
         'request'    => 'object',
         'identity'   => 'object',
@@ -36,8 +40,6 @@ class Application extends Model
     {
         return $this->hasOne(File::class, 'id', 'attachment');
     }
-
-    protected $presenter = ApplicationPresenter::class;
 
     public function user()
     {
