@@ -36,6 +36,6 @@ class SendApplicationNotified implements ShouldQueue
      */
     public function handle()
     {
-        \Mail::to(setting('hr::email'))->queue((new ApplicationEmail($this->application))->delay(30));
+        \Mail::to(setting('hr::email'))->queue((new ApplicationEmail($this->application))->delay(10));
     }
 }

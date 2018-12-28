@@ -2,7 +2,6 @@
 
 namespace Modules\Hr\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Hr\Entities\Application;
 use Modules\Hr\Http\Requests\CreateApplicationRequest;
@@ -11,6 +10,7 @@ use Modules\Hr\Repositories\ApplicationRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Modules\Media\Image\Imagy;
 use Modules\Media\Services\FileService;
+use Datatables;
 
 class ApplicationController extends AdminBaseController
 {
@@ -43,7 +43,63 @@ class ApplicationController extends AdminBaseController
      */
     public function index()
     {
-        $applications = $this->application->all();
+        $applications = $this->application->allWithBuilder()->query();
+
+        if(request()->ajax())
+        {
+            return Datatables::of($applications)
+                ->addColumn('position', function($application){
+                    return !isset($application->position->name) ? 'Yok' : $application->position->name;
+                })
+                ->addColumn('gender', function($application){
+                    return $application->present()->gender;
+                })
+                ->addColumn('fullname', function($application){
+                    return $application->present()->fullname;
+                })
+                ->addColumn('birthdate', function($application){
+                    return $application->present()->identity('birthdate');
+                })
+                ->addColumn('marital', function($application){
+                    return $application->present()->marital;
+                })
+                ->addColumn('updated_at', function($application){
+                    return $application->updated_at->format('d.m.Y H:i');
+                })
+                ->addColumn('created_at', function($application){
+                    return $application->created_at->format('d.m.Y H:i');
+                })
+                ->addColumn('action', function($application){
+                    $buttons = '';
+                    $buttons .= \Html::decode(link_to(
+                        route('admin.hr.application.export', [$application->id]),
+                        '<i class="fa fa-file-pdf-o"></i>',
+                        ['class'=>'btn btn-default btn-flat']
+                    ));
+                    $buttons .= \Html::decode(link_to(
+                        route('admin.hr.application.edit', [$application->id]),
+                        '<i class="fa fa-file-text-o"></i>',
+                        ['class'=>'btn btn-default btn-flat']
+                    ));
+                    if(isset($application->attachment()->first()->path)):
+                    $buttons .= \Html::decode(link_to(
+                        url($application->attachment()->first()->path),
+                        '<i class="fa fa-download"></i>',
+                        ['class'=>'btn btn-default btn-flat']
+                    ));
+                    endif;
+                    $buttons .=  \Html::decode(\Form::button(
+                        '<i class="fa fa-trash"></i>',
+                        ["data-toggle" => "modal",
+                         "data-action-target" => route("admin.hr.application.destroy", [$application->id]),
+                         "data-target" => "#modal-delete-confirmation",
+                         "class"=>"btn btn-danger btn-flat"]
+                    ));
+                    return $buttons;
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
 
         return view('hr::admin.applications.index', compact('applications'));
     }

@@ -36,7 +36,7 @@ class ApplicationEmail extends Mailable
             $this->attach(public_path($this->application->attachment()->first()->path));
         }
 
-        return $this->view('hr::emails.application')
+        return $this->markdown('hr::emails.application')
                     ->subject('İş Başvuru Formu : '.$this->application->id.' No.lu Başvuru')
                     ->replyTo($this->application->present()->contact('email'), $this->application->present()->fullname)
                     ->with(['application'=>$this->application]);

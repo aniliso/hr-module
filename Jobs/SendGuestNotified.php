@@ -35,6 +35,6 @@ class SendGuestNotified implements ShouldQueue
      */
     public function handle()
     {
-        \Mail::to($this->application->present()->contact('email'))->queue((new GuestEmail($this->application))->delay(30));
+        \Mail::to($this->application->present()->contact('email'))->queue((new GuestEmail($this->application))->delay(15));
     }
 }

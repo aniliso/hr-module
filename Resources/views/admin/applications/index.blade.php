@@ -34,38 +34,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if (isset($applications)): ?>
-                        <?php foreach ($applications as $application): ?>
-                        <tr>
-                            <td>{{ $application->id }}</td>
-                            <td>{{ !isset($application->position->name) ? 'Yok' : $application->position->name }}</td>
-                            <td>{{ $application->present()->gender }}</td>
-                            <td>{{ $application->present()->fullname }}</td>
-                            <td>{{ $application->present()->identity('birthdate') }}</td>
-                            <td>{{ $application->present()->marital }}</td>
-                            <td>
-                                <a href="{{ route('admin.hr.application.edit', [$application->id]) }}">
-                                    {{ $application->updated_at->format('d.m.Y H:i') }}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ route('admin.hr.application.edit', [$application->id]) }}">
-                                    {{ $application->created_at->format('d.m.Y H:i') }}
-                                </a>
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="{{ route('admin.hr.application.export', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file-pdf-o"></i></a>
-                                    <a href="{{ route('admin.hr.application.edit', [$application->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file-text-o"></i></a>
-                                    @if(isset($application->attachment()->first()->path))
-                                        <a target="_blank" href="{{ url($application->attachment()->first()->path) }}" class="btn btn-default btn-flat"><i class="fa fa-download"></i></a>
-                                    @endif
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.hr.application.destroy', [$application->id]) }}"><i class="fa fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
                         </tbody>
                     </table>
                     <!-- /.box-body -->
@@ -102,6 +70,9 @@
     <script type="text/javascript">
         $(function () {
             $('.data-table').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": '{{ route('admin.hr.application.index') }}',
                 "paginate": true,
                 "lengthChange": true,
                 "filter": true,
@@ -109,6 +80,18 @@
                 "info": true,
                 "autoWidth": true,
                 "order": [[ 0, "desc" ]],
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'position', name: 'position'},
+                    {data: 'gender', name: 'gender'},
+                    {data: 'fullname', name: 'fullname'},
+                    {data: 'birthdate', name: 'birthdate'},
+                    {data: 'marital', name: 'marital'},
+                    {data: 'updated_at', name: 'updated_at'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'action', name: 'action', orderable: false, searchable: true}
+                ],
+                stateSave: true,
                 "language": {
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
                 }

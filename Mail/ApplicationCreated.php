@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Hr\Entities\Application;
 
-class GuestEmail extends Mailable
+class ApplicationCreated extends Mailable
 {
     use Queueable, SerializesModels;
     /**
@@ -33,9 +33,9 @@ class GuestEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('hr::emails.guest')
-            ->subject('İş Başvuru Formu : '.$this->application->id.' No.lu Başvuru')
-            ->replyTo(setting('hr::email'), setting('theme::company-name'))
-            ->with(['application'=>$this->application]);
+        return $this->view('hr::emails.application')
+                    ->subject('İş Başvuru Formu : '.$this->application->id.' No.lu Başvuru')
+                    ->replyTo($this->application->present()->contact('email'), $this->application->present()->fullname)
+                    ->with(['application'=>$this->application]);
     }
 }
