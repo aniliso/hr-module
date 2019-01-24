@@ -10,7 +10,7 @@ use Modules\Hr\Http\Requests\UpdateApplicationRequest;
 use Modules\Hr\Jobs\SendApplicationNotified;
 use Modules\Hr\Jobs\SendGuestNotified;
 use Modules\Hr\Repositories\ApplicationRepository;
-use Modules\Hr\Services\GoogleDrive;
+use Modules\Hr\Services\PdfCreator;
 use Modules\Media\Services\FileService;
 use Modules\User\Traits\CanFindUserWithBearerToken;
 use DB;
@@ -21,9 +21,9 @@ class PublicController extends BasePublicController
 
     private $application;
     /**
-     * @var GoogleDrive
+     * @var PdfCreator
      */
-    private $googleDrive;
+    private $pdfCreator;
     /**
      * @var FileService
      */
@@ -31,13 +31,13 @@ class PublicController extends BasePublicController
 
     public function __construct(
         ApplicationRepository $application,
-        GoogleDrive $googleDrive,
+        PdfCreator $pdfCreator,
         FileService $fileService
     )
     {
         parent::__construct();
         $this->application = $application;
-        $this->googleDrive = $googleDrive;
+        $this->pdfCreator = $pdfCreator;
         $this->fileService = $fileService;
     }
 
@@ -77,12 +77,13 @@ class PublicController extends BasePublicController
             }
             if ($application = $this->application->create($requestData)) {
                 DB::commit();
+                //Create PDF
+                $this->pdfCreator->setApplication($application)->create();
                 //Send emails
                 if ($email = setting('hr::email')) {
                     SendApplicationNotified::dispatch($application);
                     SendGuestNotified::dispatch($application);
                 }
-                $this->googleDrive->setFolder(storage_path('app/modules/hr'))->driveUpload($application);
             }
             return response()->json([
                 'success' => true,
@@ -109,7 +110,8 @@ class PublicController extends BasePublicController
                     if ($application = $this->application->find($request->get('id'))) {
                         $this->application->update($application, $request->all());
                         DB::commit();
-                        $this->googleDrive->setFolder(storage_path('app/modules/hr'))->driveUpload($application);
+                        //Create PDF
+                        $this->pdfCreator->setApplication($application)->create();
                     } else {
                         throw new \Exception(trans('hr::applications.messages.application not found'));
                     }

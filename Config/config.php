@@ -3,6 +3,7 @@
 return [
     'name'              => 'Hr',
     'rules'             => false,
+    'pdf_folder'        => 'app/modules/hr',
     /*
     |--------------------------------------------------------------------------
     | Load additional view namespaces for a module

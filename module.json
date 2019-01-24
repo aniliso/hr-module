@@ -6,10 +6,13 @@
     "active": 1,
     "order": 130,
     "providers": [
+        "\\Barryvdh\\DomPDF\\ServiceProvider",
         "Modules\\Hr\\Providers\\HrServiceProvider",
         "Modules\\Hr\\Providers\\RouteServiceProvider"
     ],
-    "aliases": {},
+    "aliases": {
+        "PDF" : "\\Barryvdh\\DomPDF\\Facade"
+    },
     "files": [
         "macros.php"
     ],

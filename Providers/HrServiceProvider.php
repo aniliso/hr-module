@@ -42,10 +42,6 @@ class HrServiceProvider extends ServiceProvider
         );
 
         $this->registerFacades();
-
-        if($this->app->runningInConsole()===false && class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
-            $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
-        }
     }
 
     public function boot()
@@ -54,34 +50,6 @@ class HrServiceProvider extends ServiceProvider
         $this->publishConfig('hr', 'config');
         $this->publishConfig('hr', 'settings');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
-
-        if(! \App::runningInConsole()) {
-            \Storage::extend('google', function ($app, $config) {
-                $client = new \Google_Client();
-                $client->setClientId(setting('hr::clientId') ?? $config['clientId']);
-                $client->setClientSecret(setting('hr::clientSecret') ?? $config['clientSecret']);
-                $client->refreshToken(setting('hr::refreshToken') ?? $config['refreshToken']);
-                $service = new \Google_Service_Drive($client);
-                $adapter = new \Hypweb\Flysystem\GoogleDrive\GoogleDriveAdapter($service, setting('hr::folderId') ?? $config['folderId']);
-                return new \League\Flysystem\Filesystem($adapter);
-            });
-        }
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        if($this->app->runningInConsole()===false && class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
-            return [];
-        } else {
-            return [
-                \Barryvdh\DomPDF\ServiceProvider::class
-            ];
-        }
     }
 
     private function registerBindings()
@@ -118,6 +86,5 @@ class HrServiceProvider extends ServiceProvider
         $aliasLoader->alias('HrCriteria', CriteriaFacades::class);
         $aliasLoader->alias('HrInformation', InformationFacades::class);
         $aliasLoader->alias('HrApplication', ApplicationFacade::class);
-        $aliasLoader->alias('PDF', \Barryvdh\DomPDF\Facade::class);
     }
 }

@@ -306,9 +306,4 @@
             </table>
         </fieldset>
     </div>
-    <style>
-        td, th {
-            text-align: left;
-        }
-    </style>
 @endcomponent
