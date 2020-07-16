@@ -11,7 +11,7 @@
         "Modules\\Hr\\Providers\\RouteServiceProvider"
     ],
     "aliases": {
-        "PDF" : "\\Barryvdh\\DomPDF\\Facade"
+        "PDF": "\\Barryvdh\\DomPDF\\Facade"
     },
     "files": [
         "macros.php"

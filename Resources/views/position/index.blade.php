@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    @component('partials.components.page-title', ['breadcrumb'=>'hr.position.index'])
-    {{ trans_choice('hr::positions.title.positions',1) }}
+    @component('partials.components.title', ['breadcrumb'=>'hr.position.index'])
+        <h1 class="title">{{ trans_choice('hr::positions.title.positions',1) }}</h1>
     @endcomponent
 
     <section class="section-padding md-p-top-bot-50 section-page">

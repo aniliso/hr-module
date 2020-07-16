@@ -42,6 +42,8 @@ class HrServiceProvider extends ServiceProvider
         );
 
         $this->registerFacades();
+
+        \Widget::register('hrPositions', '\Modules\Hr\Widgets\HrWidgets@positions');
     }
 
     public function boot()
